@@ -1,0 +1,23 @@
+{%extends "base.html" %}
+{%block content%}
+{%include "search_bar.html"%}
+{%for b in bk%}
+<img src="{{b.image.url}}" / >
+<p>Book Tile: {{b.title}} </p>
+<ul>
+<li>Author: {%for list in b.authors.all%}{{list.first_name}} {{list.last_name}}{%if b.authors.all|pluralize%}, {%endif%}{%endfor%}</li>
+<li>Publisher:<a href="./{{b.publisher.website}}" target="_blank" > {{b.publisher}} </a></li>
+<li>Publication Date: {{b.publication_date}}</li>
+<li>ISBN: {{b.ISBN}} </li>
+<li>Description: <br>{{b.description}} </li> 
+</ul>
+{%endfor%}
+<form action="/cart/" method="post" >
+{%csrf_token%}
+	{% for b in bk %}
+	<input type="hidden" name="bid" value="{{b.ISBN}}" >
+	{%endfor%}
+	<input type="Submit" value="Add to Cart" >
+</form>
+
+{%endblock%}

@@ -1,0 +1,17 @@
+{%extends "base.html"%}
+{%block title%}Search Result{%endblock%}
+{%block content%}
+{% if books %}
+	<p>Found {{books|length}} book{{books|pluralize}}. </p>
+	<table>
+	{% for book in books %}
+	<tr>
+		<td>{%if book.image%}<img src="{{book.image.url}}", width=100px, height=177px />{%endif%}</td>
+		<td><a href='/book/?isbn={{book.ISBN}}'> {{book.title}} </a></td>
+	</tr>
+		{%endfor%}
+	</table>
+{%else%}
+	<p>No books matched your search criteria. </p>
+{%endif%}
+{%endblock%}

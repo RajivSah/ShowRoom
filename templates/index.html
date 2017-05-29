@@ -1,0 +1,31 @@
+{%extends "base.html" %}
+{%block content%}
+{%if error%}
+<p style="color:red;">{{message}}</p>
+{%endif%}
+<br>
+<br>
+<br>
+<br>
+<table>
+<h2> Latest Books </h2>
+{% if lat_books %}
+<tr>
+<th></th>
+<th>Title</th>
+<th>Date Arrived</th>
+</tr>
+{% for book  in lat_books %}
+<tr>
+<td><img src="{{book.image.url}}" height=100px width=50px/> </td>
+<td><ul>
+<li><a href="/book/?isbn={{book.ISBN}}"> {{book.title}}  </a></li>
+<li>Author{{book.authors.all|pluralize}} : {%for list in book.authors.all%}{{list.first_name}} {{list.last_name}}{%if book.authors.all|pluralize%}, {%endif%}{%endfor%} </li>
+</ul>
+</td>
+<td>{{book.date_added}}</td>
+</tr>
+{%endfor%}
+{%endif%}
+</table>
+{%endblock%}
