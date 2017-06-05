@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-#modified by unverified
-import os
 import sys
 
 if __name__ == "__main__":
