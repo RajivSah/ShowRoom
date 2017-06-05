@@ -1,6 +1,7 @@
 import os
 from django.db import models
 
+#Testing the git push
 # Create your models here.
 class Publisher(models.Model):
 	name=models.CharField(max_length=30)
