@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    {% load widget_tweaks %}
+    {% load static %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'login_page.css' %}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container" >
+    <div class="container_inner"></div>
+        <div class="container_form"><br><br>
+
+            <form role="form" action="/login/validate" method="post" style="padding: 10%">
+                 {% csrf_token %}
+                <div class="form-group">
+                <label style="color: white;border-bottom: 3px solid #1161EE; font-size: large; padding-bottom: 2px;">LOG IN</label><br><br>
+                        <div class="input-group input-group-lg">
+                             <span class="input-group-addon">
+                             <span class="glyphicon glyphicon glyphicon-user"></span>
+                             </span>
+                            {{ login_form.username|add_class:"form-control input_field"|attr:"placeholder:Username"}}
+
+                        </div>
+                <br><br>
+                         <div class="input-group input-group-lg">
+                     <span class="input-group-addon">
+                        <span class="glyphicon glyphicon glyphicon-lock"></span>
+                    </span>
+  {{ login_form.password|add_class:"form-control input_field"|attr:"placeholder:Password" }}
+
+            </div>
+        <br><br>
+
+    <input type="submit" value="Log In" class="form-control login_button" >
+    </div>
+</form>
+     {% if login_status == '1' %}
+        <div style="margin: auto; color: white; text-align: center;">
+        Incorrect Username or Password
+        </div>
+     {% endif %}
+        </div>
+
+</div>
+</body>
+</html>
