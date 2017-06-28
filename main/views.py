@@ -20,7 +20,7 @@ def login_validate(request):
             username_entered=login_info.cleaned_data['username']
             password_entered=login_info.cleaned_data['password']
             # print(username_entered,password_entered)
-            check= models.user.objects.filter(password=password_entered)
+            check= models.user.objects.filter(password=password_entered,username=username_entered)
             if check.count() == 1:
                 return HttpResponseRedirect(reverse('home:home_page'))
             else:
