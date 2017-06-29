@@ -18,7 +18,9 @@
 <nav class="navbar navbar-inverse" style="border-radius: 0px !important;background-color:#123456  !important;">
   <div class="container-fluid">
     <div class="navbar-header">
+        {% block home %}
       <a class="navbar-brand" href="#">WebSiteName</a>
+        {% endblock %}
     </div>
     <ul class="nav navbar-nav">
 
@@ -38,5 +40,7 @@
       {% endblock links %}
   </div>
 </nav>
+{% block contents %}
+{% endblock %}
 </body>
 </html>
