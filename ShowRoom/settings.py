@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'widget_tweaks',
-    'home.apps.HomeConfig',
+    'employee.apps.HomeConfig',
 
 ]
 
