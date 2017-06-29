@@ -9,17 +9,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-{% extends 'parts.html' %}
-  {% block home %}
-      <a class="navbar-brand" href="{%  url 'parts:parts_home' %} ">WebSiteName</a>
-        {% endblock %}
-{% block contents %}
+<div>
+{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search' %}
+</div>
+<br><br><br>
+<div class="container">
 <form action="{% url 'parts:part_add_validate' %}" method="post">
 {% csrf_token %}
 {{ form.as_p }}
 <button type="submit">Add</button>
 </form>
-{% endblock %}
+</div>
+
 
 </body>
 </html>

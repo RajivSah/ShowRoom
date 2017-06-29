@@ -22,7 +22,7 @@ def login_validate(request):
             # print(username_entered,password_entered)
             check= models.user.objects.filter(password=password_entered,username=username_entered)
             if check.count() == 1:
-                return HttpResponseRedirect(reverse('employee:home_page'))
+                return HttpResponseRedirect(reverse('parts:parts_home'))
             else:
                 return  HttpResponseRedirect(reverse('main:login_page', args=[1]))
             # return HttpResponseRedirect(reverse('loggedIn'))

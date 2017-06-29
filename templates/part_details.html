@@ -9,18 +9,19 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-{% extends 'parts.html' %}
-  {% block home %}
-      <a class="navbar-brand" href="{%  url 'parts:parts_home' %} ">WebSiteName</a>
-        {% endblock %}
-{% block contents %}
-<div >
+<div>
+{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search' %}
+</div>
+<br><br><br>
+<div class="container">
+<h4 >
 {{ part_temp.part_id }}<br>
 {{ part_temp.part_name }}<br>
 {{ part_temp.cost }}<br>
 {{ part_temp.available_quantity }}<br>
+</h4>
 </div>
-{% endblock %}
+
 
 </body>
 </html>

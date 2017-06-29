@@ -11,28 +11,20 @@
 
 </head>
 <body>
-{% extends 'nav_bar.html' %}
-  {% block home %}
-      <a class="navbar-brand" href="{%  url 'parts:parts_home' %} ">WebSiteName</a>
-        {% endblock %}
-{% block links %}
-      <ul class="nav navbar-nav navbar-right">
-          <li class="nav-item"><a href="{% url 'parts:part_add' %}" class="nav-link"><span class="glyphicon glyphicon-plus"></span>Add Parts </a> </li>
-          <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
-    </ul>
-{% endblock %}
- {% block contents %}
-<div class="container">
+<div>
+{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search' %}
+</div>
+<br><br><br>
+
+<div class="container"  >
   <h2>List Group With Linked Items</h2>
   <div class="list-group">
     {% for part in part_list %}
-        <a href="{% url 'parts:part_details' part.part_id %}" class="list-group-item">{{ part.part_name }}</a>
-
+        <a href="{% url 'parts:part_details' part.part_id %}" class="list-group-item">{{ part.part_id }} - {{ part.part_name }}</a>
     {% endfor %}
-
   </div>
 </div>
 
- {% endblock %}
+
 </body>
 </html>

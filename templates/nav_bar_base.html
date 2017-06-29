@@ -8,40 +8,29 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
-    <style>
-        .search_buton{
-
-        }
-    </style>
 <body>
 
-<nav class="navbar navbar-inverse" style="border-radius: 0px !important;background-color:#123456  !important;">
+<nav class="navbar navbar-inverse" style="width:100%;border-radius: 0px !important;background-color:#123456  !important; z-index: 5 !important; position: fixed;">
   <div class="container-fluid">
     <div class="navbar-header">
-        {% block home %}
-      <a class="navbar-brand" href="#">WebSiteName</a>
-        {% endblock %}
+      <a class="navbar-brand" href="{% url 'parts:parts_home' %}">WebsiteName</a>
     </div>
     <ul class="nav navbar-nav">
 
     </ul>
-     {% block  form%}
-    <form action="" role="form" class="navbar-form navbar-left" method="get">
-     {% endblock %}
+    <form action="{% url search_link %}" role="form" class="navbar-form navbar-left" method="get" >
+        {% csrf_token %}
         <div class="form-group ">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search_text">
             <button class="form-control search_buton btn btn-success " type="submit" >Search</button>
         </div>
     </form>
-      {% block links %}
       <ul class="nav navbar-nav navbar-right">
-          <li class="nav-item"><a href="#" class="nav-link"><span class="glyphicon glyphicon-plus"></span>Add Employee </a> </li>
-          <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+          {% for i,j,k in my_list %}
+              <li class="nav-item"><a href="{% url j %}" class="nav-link"><span class="{{ i }}"></span>{{k}} </a> </li>
+          {% endfor %}
        </ul>
-      {% endblock links %}
   </div>
 </nav>
-{% block contents %}
-{% endblock %}
 </body>
 </html>
