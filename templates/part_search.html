@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+{% extends 'parts.html' %}
+{% block contents %}
+<div class="container">
+  <h2>List Group With Linked Items</h2>
+  <div class="list-group">
+    {% for part in part_list %}
+        <a href="{% url 'parts:part_details' part.part_id %}" class="list-group-item">{{ part.part_name }}</a>
+    {% endfor %}
+
+{% endblock %}
+</body>
+</html>
