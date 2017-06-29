@@ -26,7 +26,7 @@ class employee(models.Model):
         return self.first_name +" "+self.last_name
 
 class user(models.Model):
-    user_id=models.OneToOneField(employee,on_delete=models.CASCADE)
+    user_id=models.OneToOneField(employee,on_delete=models.CASCADE,primary_key=True)
     username=models.CharField(max_length=30)
     password=models.CharField(max_length=30)
     created_date=models.DateField()
