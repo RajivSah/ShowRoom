@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'widget_tweaks',
     'employee.apps.HomeConfig',
+    'parts.apps.PartsConfig',
 
 ]
 
