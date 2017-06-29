@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/',include('main.urls')),
     url(r'^employee/', include('employee.urls')),
+    url(r'^parts/',include('parts.urls')),
 ]

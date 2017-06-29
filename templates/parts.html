@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
+{% extends 'nav_bar.html' %}
+{% block links %}
+      <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item"><a href="#" class="nav-link"><span class="glyphicon glyphicon-plus"></span>Add Parts </a> </li>
+          <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+    </ul>
+{% endblock %}
 
 </body>
 </html>
