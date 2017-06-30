@@ -26,8 +26,8 @@
         </div>
     </form>
       <ul class="nav navbar-nav navbar-right">
-          {% for i,j,k in my_list %}
-              <li class="nav-item"><a href="{% url j %}" class="nav-link"><span class="{{ i }}"></span>{{k}} </a> </li>
+          {% for class,url,text in my_list %}
+              <li class="nav-item"><a href="{{ url  }}" class="nav-link"><span class="{{ class }}"></span>{{text}} </a> </li>
           {% endfor %}
        </ul>
   </div>

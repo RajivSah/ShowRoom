@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+from django.contrib.auth import authenticate
 from . import forms
 from . import models
 
@@ -19,14 +19,17 @@ def login_validate(request):
         if login_info.is_valid():
             username_entered=login_info.cleaned_data['username']
             password_entered=login_info.cleaned_data['password']
-            # print(username_entered,password_entered)
+            print(username_entered,password_entered)
             check= models.user.objects.filter(password=password_entered,username=username_entered)
             if check.count() == 1:
                 return HttpResponseRedirect(reverse('parts:parts_home'))
             else:
-                return  HttpResponseRedirect(reverse('main:login_page', args=[1]))
+                return HttpResponseRedirect(reverse('main:login_page', args=[1]))
+
             # return HttpResponseRedirect(reverse('loggedIn'))
-    # if a GET (or any other method) we'll create a blank form
+            # if a GET (or any other method) we'll create a blank form
+            # user=authenticate(us)
+
     else:
         pass
 
