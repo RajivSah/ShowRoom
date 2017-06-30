@@ -12,6 +12,10 @@ class department(models.Model):
         return self.name
 
 class employee(models.Model):
+    GEND_CHOICES=(
+	("Male", ("Male")), 
+	("Female", ("Female"))
+	)
     first_name=models.CharField(max_length=30)
     last_name=models.CharField(max_length=30)
     address_city=models.CharField(max_length=30)
@@ -19,7 +23,7 @@ class employee(models.Model):
     contact=PhoneNumberField()
     salary=models.IntegerField()
     department_id=models.ForeignKey(department,on_delete=models.CASCADE)
-    gender=models.BinaryField()
+    Gender=models.CharField(max_length=10,choices=GEND_CHOICES)
     joined_date=models.DateField()
 
     def __str__(self):
@@ -34,6 +38,12 @@ class user(models.Model):
     def __str__(self):
         return str(self.username)
 
-
+    def authenticate(password_entered, username_entered):
+        response={}
+        try:
+             o=user.objects.get(username=username_entered, password=password_entered)
+             return {'status':True, 'department':o.user_id.department_id.name}
+        except:
+             return False
 
 
