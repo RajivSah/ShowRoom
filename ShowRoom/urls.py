@@ -4,9 +4,9 @@ from main.views import home_page, login_validate
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls,name="admin"),
     url(r'^employee/', include('employee.urls')),
     url(r'^parts/',include('parts.urls')),
     url(r'^',include('main.urls')),
-    url(r'^home/',include('home.urls')),
+
 ]

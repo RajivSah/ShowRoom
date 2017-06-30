@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.db.models import Q
-
+from main.views import check_session
 from . import models
 from . import forms
 from django.http import HttpResponseRedirect
 
 def populate_nav_bar():
     gly_name = ['glyphicon glyphicon-plus', 'glyphicon glyphicon-log-out']
-    link_list = [reverse('parts:part_add'), reverse('main:login_page',args=[0])]
+    link_list = [reverse('parts:part_add'), reverse('main:logout')]
     link_name = ['Add Part', 'Log Out']
     my_list = zip(gly_name, link_list, link_name)
     return my_list
