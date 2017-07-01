@@ -39,7 +39,7 @@ class user(models.Model):
         return str(self.username)
 
     def authenticate(password_entered, username_entered):
-        response={}
+
         try:
              o=user.objects.get(username=username_entered, password=password_entered)
              return {'status':True, 'department':o.user_id.department_id.name}
