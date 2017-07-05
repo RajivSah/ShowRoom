@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class part_list(models.Model):
     part_id=models.CharField(max_length=30,primary_key=True)
     part_name=models.CharField(max_length=30)
@@ -21,9 +22,9 @@ class part_stock(models.Model):
     entry_date=models.DateField()
     supplier=models.CharField(max_length=30)
     amount=models.IntegerField()
-    remaining=models.IntegerField()
+    remaining=models.IntegerField(default=0)
 
     def __str__(self):
-        return self.part_id.part_name + self.entry_date
+        return self.part_id.part_name
 
 

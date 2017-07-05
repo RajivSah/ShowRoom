@@ -21,7 +21,24 @@
 {{ part_temp.available_quantity }}<br>
 </h4>
 </div>
-
+<form action="{% url 'parts:part_stock_add_validate' part_temp.part_id  %}" method="post" >
+    {% csrf_token %}
+    {{ part_stock_form }}
+    <input type="submit">
+</form>
+<div>
+    {% if not valid %}
+        <center>please enter valid entry</center>
+    {% endif %}
+</div>
+<div>
+    {% for stock in part_temp.part_stock_set.all %}
+        {{ stock.entry_date }}
+        {{ stock.supplier }}
+        {{ stock.amount }}
+        {{ stock.remaining }}<br>
+    {% endfor %}
+</div>
 
 </body>
 </html>

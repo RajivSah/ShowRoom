@@ -28,7 +28,7 @@ def login_validate(request):
             check = models.user.authenticate(password_entered, username_entered)
 
             if check:
-                print('valid login')
+                # print('valid login')
                 # check the type of user
                 request.session['department'] = check['department']
                 # request.session['user'] = check['object'].username
