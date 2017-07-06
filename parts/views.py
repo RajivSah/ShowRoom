@@ -59,15 +59,30 @@ def part_add_validate(request):
     else:
         pass
 
-def part_details(request,pk,valid=True):
+def part_details(request,pk):
     temp =check_session_exist(request)
     if temp != True:
         return HttpResponseRedirect(temp)
 
     my_list=populate_nav_bar()
-    temp=models.part_list.objects.get(part_id=pk)
-    # temp_stock=models.part_list.part_stock_set.all
-    return render(request,'part_details.html',{'part_temp':temp,'my_list':my_list,'part_stock_form':forms.part_stock_form,'valid':valid})
+    temp = models.part_list.objects.get(part_id=pk)
+
+    if request.method  == 'POST':
+        form_entered=forms.part_stock_form(request.POST)
+        if form_entered.is_valid():
+            temp = models.part_stock()
+            temp.part_id = models.part_list.objects.get(pk=pk)
+            temp.entry_date = form_entered.cleaned_data['entry_date']
+            temp.supplier = form_entered.cleaned_data['supplier']
+            temp.amount = form_entered.cleaned_data['amount']
+            temp.save()
+            return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
+        else:
+            print("invalid field")
+            return render(request, 'part_details.html',
+                          {'part_temp': temp, 'my_list': my_list, 'part_stock_form': form_entered})
+
+    return render(request,'part_details.html', {'part_temp':temp,'my_list':my_list,'part_stock_form': forms.part_stock_form})
 
 
 def part_stock_add_validate(request,pk):
@@ -82,7 +97,8 @@ def part_stock_add_validate(request,pk):
             temp.save()
             return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
         else:
-            return part_details(request,pk,False)
+            print("invalid field")
+            return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
     else:
         return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
 
