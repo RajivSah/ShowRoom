@@ -13,7 +13,7 @@
 
              function display_popup() {
                 $('#pop_up').show();
-                $('#id_edit-stock_id').val($(this).data("id")).attr("disabled","true");
+                $('#id_edit-stock_id').val($(this).data("id")).hide();
                 $('#id_edit-entry_date').val($(this).data("date"));
                 $('#id_edit-supplier').val($(this).data("supplier"));
                 $('#id_edit-amount').val($(this).data("amount"));
@@ -45,7 +45,7 @@
     {{ part_stock_form.entry_date}}
     {{ part_stock_form.supplier }}
     {{ part_stock_form.amount }}
-    <input type="submit">
+    <input type="submit" name="add_stock_btn">
 </form>
 {% endblock %}
 
@@ -70,10 +70,10 @@
 
 {% block stock_edit %}
 <div id="pop_up" style="display: none;">
-    <form id="pop_up_form" action="">
+    <form id="pop_up_form" action="{% url 'parts:part_details' part_temp.part_id  %}" method="post">
         {% csrf_token %}
         {{ part_stock_edit}}
-        <button type="submit" onclick="">save change </button>
+        <button type="submit" name="edit_stock_btn">save change </button>
     </form>
 </div>
 {% endblock %}

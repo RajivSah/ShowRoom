@@ -68,18 +68,30 @@ def part_details(request,pk):
     temp_list = models.part_list.objects.get(part_id=pk)
 
     if request.method  == 'POST':
-        form_entered=forms.part_stock_form(request.POST,prefix='add')
-        if form_entered.is_valid():
-            temp = models.part_stock()
-            temp.part_id = models.part_list.objects.get(pk=pk)
-            temp.entry_date = form_entered.cleaned_data['entry_date']
-            temp.supplier = form_entered.cleaned_data['supplier']
-            temp.amount = form_entered.cleaned_data['amount']
-            temp.save()
-            return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
-        else:
-            return render(request, 'part_details.html',
+        if 'add_stock_btn' in request.POST:
+            form_entered=forms.part_stock_form(request.POST,prefix='add')
+            if form_entered.is_valid():
+                temp = models.part_stock()
+                temp.part_id = models.part_list.objects.get(pk=pk)
+                temp.entry_date = form_entered.cleaned_data['entry_date']
+                temp.supplier = form_entered.cleaned_data['supplier']
+                temp.amount = form_entered.cleaned_data['amount']
+                temp.save()
+                return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
+            else:
+                return render(request, 'part_details.html',
                           {'part_temp': temp_list, 'my_list': my_list, 'part_stock_form': form_entered,'part_stock_edit':forms.part_stock_form(prefix='edit')})
+        elif 'edit_stock_btn' in request.POST:
+            form_entered = forms.part_stock_form(request.POST,prefix='edit')
+            if form_entered.is_valid():
+                temp = models.part_stock.objects.get(id = form_entered.cleaned_data['stock_id'])
+                temp.entry_date = form_entered.cleaned_data['entry_date']
+                temp.supplier = form_entered.cleaned_data['supplier']
+                temp.amount = form_entered.cleaned_data['amount']
+                temp.save()
+                return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
+            else:
+                return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
 
     return render(request,'part_details.html', {'part_temp':temp_list,'my_list':my_list,'part_stock_form': forms.part_stock_form(prefix='add'),'part_stock_edit':forms.part_stock_form(prefix='edit')})
 
@@ -152,19 +164,30 @@ def part_app_model(request, pk):
     my_list = populate_nav_bar()
     temp_list = models.part_list.objects.get(part_id=pk)
     if request.method == 'POST':
-        form_entered = forms.applicable_form(request.POST,prefix='add_app')
-        if form_entered.is_valid():
-            temp_model = models.applicable_model()
-            temp_model.part_id = models.part_list.objects.get(pk=pk)
-            temp_model.applicable = form_entered.cleaned_data['applicable']
-            temp_model.save()
-            return HttpResponseRedirect(reverse('parts:part_app_model', args=[pk] ))
-
-        else:
-            print("invalid")
-            return render(request, 'part_app_model.html', {'part_temp': temp_list, 'my_list': my_list,
+        if 'add_app_btn' in request.POST:
+            form_entered = forms.applicable_form(request.POST,prefix='add_app')
+            if form_entered.is_valid():
+                temp_model = models.applicable_model()
+                temp_model.part_id = models.part_list.objects.get(pk=pk)
+                temp_model.applicable = form_entered.cleaned_data['applicable']
+                temp_model.save()
+                return HttpResponseRedirect(reverse('parts:part_app_model', args=[pk] ))
+            else:
+                print("invalid")
+                return render(request, 'part_app_model.html', {'part_temp': temp_list, 'my_list': my_list,
                                                            'add_app': form_entered,
-                                                           'edit_app': forms.applicable_form(prefix= "edit_app")})
+                                                   'edit_app': forms.applicable_form(prefix= "edit_app")})
+        elif 'edit_app_btn' in request.POST:
+            form_entered = forms.applicable_form(request.POST,prefix='edit_app')
+            if form_entered.is_valid():
+                app_id = form_entered.cleaned_data['app_id']
+                temp_model = models.applicable_model.objects.get(id=app_id)
+                # temp_model.part_id = models.part_list.objects.get(pk=pk)
+                temp_model.applicable = form_entered.cleaned_data['applicable']
+                temp_model.save()
+                return HttpResponseRedirect( reverse('parts:part_app_model', args=[pk]))
+            else:
+                pass
 
     return render(request,'part_app_model.html',{'part_temp':temp_list, 'my_list':my_list,'add_app':forms.applicable_form(prefix='add_app'),'edit_app':forms.applicable_form(prefix=
                                                                                                                                                       "edit_app")})

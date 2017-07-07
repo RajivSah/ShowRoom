@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style type="text/javascript">
+    <script type="text/javascript">
         $(function(){
+        $('.edit').on('click',display_popup);
+        
+            function display_popup() {
+                $("#pop_up").show();
+                $("#id_edit_app-app_id").val($(this).data("id")).hide();
+                $("#id_edit_app-applicable").val($(this).data("app_name"));
+            }
 
         });
-    </style>
+    </script>
 </head>
 <body>
 <div style="position: fixed;">
@@ -22,7 +30,7 @@
     <form id="add_app_form" method="post" action="{% url 'parts:part_app_model' part_temp.part_id %}">
         {% csrf_token %}
         {{ add_app.applicable }}
-        <input type="submit">
+        <input type="submit" name="add_app_btn">
     </form>
     </div>
 {% endblock %}
@@ -33,6 +41,17 @@
         <button type="button" data-id="{{ app_model.id }}" data-app_name="{{ app_model.applicable }}" class="edit">Edit</button>
         <br>
     {% endfor %}
+{% endblock %}
+
+{% block edit_form %}
+    <div id="pop_up" style="display: none;">
+    <form method="post"  action="">
+        {% csrf_token %}
+        {{ edit_app.app_id }}
+        {{ edit_app.applicable }}
+        <input type="submit"name="edit_app_btn">
+    </form>
+    </div>
 {% endblock %}
 </body>
 </html>
