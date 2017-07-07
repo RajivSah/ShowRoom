@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.db.models import Q
-from main.views import check_session
 from . import models
 from . import forms
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
@@ -69,7 +68,7 @@ def part_details(request,pk):
     temp_list = models.part_list.objects.get(part_id=pk)
 
     if request.method  == 'POST':
-        form_entered=forms.part_stock_form(request.POST)
+        form_entered=forms.part_stock_form(request.POST,prefix='add')
         if form_entered.is_valid():
             temp = models.part_stock()
             temp.part_id = models.part_list.objects.get(pk=pk)
@@ -79,23 +78,12 @@ def part_details(request,pk):
             temp.save()
             return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
         else:
-            print("invalid field")
-            x="invalid"
             return render(request, 'part_details.html',
-                          {'part_temp': temp_list, 'my_list': my_list, 'part_stock_form': form_entered})
+                          {'part_temp': temp_list, 'my_list': my_list, 'part_stock_form': form_entered,'part_stock_edit':forms.part_stock_form(prefix='edit')})
 
-    return render(request,'part_details.html', {'part_temp':temp_list,'my_list':my_list,'part_stock_form': forms.part_stock_form(prefix='part_stock_form')})
+    return render(request,'part_details.html', {'part_temp':temp_list,'my_list':my_list,'part_stock_form': forms.part_stock_form(prefix='add'),'part_stock_edit':forms.part_stock_form(prefix='edit')})
 
 
-def form_fill(request):
-    temp = check_session_exist(request)
-    if temp != True:
-        return HttpResponseRedirect(temp)
-
-    stock_id = request.GET.get('stock_id')
-    fill = models.part_stock.objects.get(id=stock_id)
-    temp= {'entry_date':fill.entry_date , 'supplier' : fill.supplier, 'amount' : fill.amount}
-    return JsonResponse(temp)
 
 def stock_edit(request):
     temp = check_session_exist(request)
@@ -160,3 +148,23 @@ def part_search(request):
     return render(request,'part_search.html',{'part_list':temp,'my_list':my_list,})
 
 
+def part_app_model(request, pk):
+    my_list = populate_nav_bar()
+    temp_list = models.part_list.objects.get(part_id=pk)
+    if request.method == 'POST':
+        form_entered = forms.applicable_form(request.POST,prefix='add_app')
+        if form_entered.is_valid():
+            temp_model = models.applicable_model()
+            temp_model.part_id = models.part_list.objects.get(pk=pk)
+            temp_model.applicable = form_entered.cleaned_data['applicable']
+            temp_model.save()
+            return HttpResponseRedirect(reverse('parts:part_app_model', args=[pk] ))
+
+        else:
+            print("invalid")
+            return render(request, 'part_app_model.html', {'part_temp': temp_list, 'my_list': my_list,
+                                                           'add_app': form_entered,
+                                                           'edit_app': forms.applicable_form(prefix= "edit_app")})
+
+    return render(request,'part_app_model.html',{'part_temp':temp_list, 'my_list':my_list,'add_app':forms.applicable_form(prefix='add_app'),'edit_app':forms.applicable_form(prefix=
+                                                                                                                                                      "edit_app")})

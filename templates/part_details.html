@@ -8,55 +8,18 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        var global_stock_id;
-        var global_app_id;
-        function display_popup(stock_id) {
-            global_stock_id = stock_id;
-            $('#pop_up').show();
-            $('#pop_up_form > #id_entry_date').val(stock_id);
-            $.ajax({
-                url: '{% url 'parts:form_fill' %}',
-                data: {
-                'stock_id': stock_id
-                    },
-                dataType: "json",
-                success: function (fill) {
-                      $('#pop_up_form > #id_entry_date').val(fill.entry_date);
-                      $('#pop_up_form > #id_supplier').val(fill.supplier);
-                      $('#pop_up_form > #id_amount').val(fill.amount);
+     $(function() {
+     $('.edit').on('click', display_popup);
 
+             function display_popup() {
+                $('#pop_up').show();
+                $('#id_edit-stock_id').val($(this).data("id")).attr("disabled","true");
+                $('#id_edit-entry_date').val($(this).data("date"));
+                $('#id_edit-supplier').val($(this).data("supplier"));
+                $('#id_edit-amount').val($(this).data("amount"));
                 }
-          });
-        }
-        
-        function validate_form() {
-            $.ajax({
-                url: '{% url 'parts:stock_edit' %}',
-                data:{
-                    'stock_id':global_stock_id,
-                    'entry_date':$('#pop_up_form > #id_entry_date').val(),
-                    'supplier':$('#pop_up_form > #id_supplier').val(),
-                    'amount':$('#pop_up_form > #id_amount').val()
 
-                },
-                success: function (data) {
-                    window.alert("edited");
-                },
-                error : function () {
-                    window.alert("failed");
-                }
-            });
-            
-        }
-
-        function display_popup_app(app_id) {
-            global_app_id=app_id;
-            $("#app_edit_form").show();
-            var temp = $("#app"+app_id+'> span').text();
-{#            window.alert(temp);#}
-            $("#app_edit_form > #app_edit_box").val(temp);
-
-        }
+});
     </script>
 </head>
 <body>
@@ -75,10 +38,13 @@
 </h4>
 </div>
 {% endblock %}
+<a href="{% url 'parts:part_app_model'  part_temp.part_id  %}">applicable model</a>
 {% block add_stock_form %}
 <form action="{% url 'parts:part_details' part_temp.part_id  %}" method="post" >
     {% csrf_token %}
-    {{ part_stock_form }}
+    {{ part_stock_form.entry_date}}
+    {{ part_stock_form.supplier }}
+    {{ part_stock_form.amount }}
     <input type="submit">
 </form>
 {% endblock %}
@@ -86,13 +52,14 @@
 {% block stock_detail %}
 <div>
     {% for stock in part_temp.part_stock_set.all %}
-        {% with id="list"|concatenate:stock.id %}
+        {% with id="list"|concatenate:stock.id  btn_id="btn"|concatenate:stock.id span_id="span"|concatenate:stock.id%}
         <div id="{{ id }}">
-        {{ stock.entry_date}}
-        {{ stock.supplier }}
-        {{ stock.amount }}
-        {{ stock.remaining }}
-            <button type="submit" onclick="display_popup('{{ stock.id }}')" >edit</button>
+            {{ stock.entry_date}}
+            {{ stock.supplier }}
+            {{ stock.amount }}
+            {{ stock.remaining }}
+            <button class="edit" data-date="{{ stock.entry_date|date:'Y-m-d'}}" data-supplier="{{ stock.supplier }}" data-amount="{{ stock.amount }}"  id="{{ btn_id }}" type="submit" data-id="{{ stock.id }}"  style="position: absolute; right:0;" >edit</button>
+        <hr>
         </div>
         <br>
         {% endwith %}
@@ -100,40 +67,18 @@
 </div>
 {% endblock %}
 
+
 {% block stock_edit %}
 <div id="pop_up" style="display: none;">
     <form id="pop_up_form" action="">
         {% csrf_token %}
-        {{ part_stock_form.entry_date }}
-        {{ part_stock_form.supplier }}
-        {{ part_stock_form.amount }}
-        <button type="submit" onclick="validate_form()">save change </button>
+        {{ part_stock_edit}}
+        <button type="submit" onclick="">save change </button>
     </form>
 </div>
 {% endblock %}
 
-{% block applicable_model %}
-    <div>
-    <h3>Applicable Model</h3>
-    {% for model in part_temp.applicable_model_set.all %}
-        {% with id="app"|concatenate:model.id %}
-            <div id="{{ id }}">
-            <span>{{ model.applicable }}</span>
-            <button type="button" onclick="display_popup_app('{{ model.id }}')">Edit</button>
-            </div>
-        {% endwith %}
-    {% endfor %}
-    </div>
-    <div>
-    <form method="post" action="{% url 'parts:app_save' %}"  id="app_edit_form" style="display: none;">
-        {% csrf_token %}
-        <input type="text" id="app_edit_box" name="app_edi_box" >
-        <button type="submit" onclick="" >save change</button>
-    </form>
-    </div>
-{% endblock %}
 
-<div style="height: 20px">
 
 </div>
 </body>
