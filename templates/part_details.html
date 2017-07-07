@@ -7,12 +7,55 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var global_stock_id;
+        function display_popup(stock_id) {
+            global_stock_id = stock_id;
+            $('#pop_up').show();
+            $('#pop_up_form > #id_entry_date').val(stock_id);
+            $.ajax({
+                url: '{% url 'parts:form_fill' %}',
+                data: {
+                'stock_id': stock_id
+                    },
+                dataType: "json",
+                success: function (fill) {
+                      $('#pop_up_form > #id_entry_date').val(fill.entry_date);
+                      $('#pop_up_form > #id_supplier').val(fill.supplier);
+                      $('#pop_up_form > #id_amount').val(fill.amount);
+
+                }
+          });
+        }
+        
+        function validate_form() {
+            $.ajax({
+                url: '{% url 'parts:stock_edit' %}',
+                data:{
+                    'stock_id':global_stock_id,
+                    'entry_date':$('#pop_up_form > #id_entry_date').val(),
+                    'supplier':$('#pop_up_form > #id_supplier').val(),
+                    'amount':$('#pop_up_form > #id_amount').val()
+
+                },
+                success: function (data) {
+                    window.alert("edited");
+                },
+                error : function () {
+                    window.alert("failed");
+                }
+            });
+            
+        }
+    </script>
 </head>
 <body>
+{% load app_filters %}
 <div>
 {% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search' %}
 </div>
 <br><br><br>
+{% block part_detail %}
 <div class="container">
 <h4 >
 {{ part_temp.part_id }}<br>
@@ -21,20 +64,43 @@
 {{ part_temp.available_quantity }}<br>
 </h4>
 </div>
+{% endblock %}
+{% block add_stock_form %}
 <form action="{% url 'parts:part_details' part_temp.part_id  %}" method="post" >
     {% csrf_token %}
     {{ part_stock_form }}
     <input type="submit">
 </form>
+{% endblock %}
 
+{% block stock_detail %}
 <div>
     {% for stock in part_temp.part_stock_set.all %}
-        {{ stock.entry_date }}
+        {% with id="list"|concatenate:stock.id %}
+        <div id="{{ id }}">
+        {{ stock.entry_date}}
         {{ stock.supplier }}
         {{ stock.amount }}
-        {{ stock.remaining }}<br>
+        {{ stock.remaining }}
+            <button type="submit" onclick="display_popup('{{ stock.id }}')" >edit</button>
+        </div>
+        <br>
+        {% endwith %}
     {% endfor %}
 </div>
+{% endblock %}
+
+{% block stock_edit %}
+<div id="pop_up" style="display: none;">
+    <form id="pop_up_form" action="">
+        {% csrf_token %}
+        {{ part_stock_form.entry_date }}
+        {{ part_stock_form.supplier }}
+        {{ part_stock_form.amount }}
+        <button type="submit" onclick="validate_form()">save change </button>
+    </form>
+</div>
+{% endblock %}
 
 </body>
 </html>

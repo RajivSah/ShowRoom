@@ -57,7 +57,6 @@ def logout(request):
 
 
 def check_session(request):
-    print("in check_session")
     if request.session['department'] == "administration":
         return reverse('admin')
     elif request.session['department'] == "parts":

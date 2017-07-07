@@ -1,11 +1,11 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse
 from django.db.models import Q
 from main.views import check_session
 from . import models
 from . import forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+
 
 def populate_nav_bar():
     gly_name = ['glyphicon glyphicon-plus', 'glyphicon glyphicon-log-out']
@@ -49,6 +49,7 @@ def part_add_view(request):
 def part_add_validate(request):
     if request.method  == 'POST':
         form_entered=forms.part_add_form(request.POST)
+        print(form_entered)
         if form_entered.is_valid():
             temp = models.part_list()
             temp.part_id=form_entered.cleaned_data['part_id']
@@ -65,7 +66,7 @@ def part_details(request,pk):
         return HttpResponseRedirect(temp)
 
     my_list=populate_nav_bar()
-    temp = models.part_list.objects.get(part_id=pk)
+    temp_list = models.part_list.objects.get(part_id=pk)
 
     if request.method  == 'POST':
         form_entered=forms.part_stock_form(request.POST)
@@ -79,28 +80,63 @@ def part_details(request,pk):
             return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
         else:
             print("invalid field")
+            x="invalid"
             return render(request, 'part_details.html',
-                          {'part_temp': temp, 'my_list': my_list, 'part_stock_form': form_entered})
+                          {'part_temp': temp_list, 'my_list': my_list, 'part_stock_form': form_entered})
 
-    return render(request,'part_details.html', {'part_temp':temp,'my_list':my_list,'part_stock_form': forms.part_stock_form})
+    return render(request,'part_details.html', {'part_temp':temp_list,'my_list':my_list,'part_stock_form': forms.part_stock_form})
 
 
-def part_stock_add_validate(request,pk):
-    if request.method  == 'POST':
-        form_entered=forms.part_stock_form(request.POST)
-        if form_entered.is_valid():
-            temp = models.part_stock()
-            temp.part_id = models.part_list.objects.get(pk=pk)
-            temp.entry_date = form_entered.cleaned_data['entry_date']
-            temp.supplier = form_entered.cleaned_data['supplier']
-            temp.amount = form_entered.cleaned_data['amount']
-            temp.save()
-            return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
-        else:
-            print("invalid field")
-            return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
-    else:
-        return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
+def form_fill(request):
+    temp = check_session_exist(request)
+    if temp != True:
+        return HttpResponseRedirect(temp)
+
+    stock_id = request.GET.get('stock_id')
+    fill = models.part_stock.objects.get(id=stock_id)
+    temp= {'entry_date':fill.entry_date , 'supplier' : fill.supplier, 'amount' : fill.amount}
+    return JsonResponse(temp)
+
+def stock_edit(request):
+    temp = check_session_exist(request)
+    if temp != True:
+        return HttpResponseRedirect(temp)
+
+    stock_id = request.GET.get('stock_id')
+    entry_date= request.GET.get('entry_date')
+    supplier = request.GET.get('supplier')
+    amount = request.GET.get(('amount'))
+    data={'stock_id':stock_id,'entry_date':entry_date,'supplier':supplier,'amount':amount}
+    form_entered = forms.part_stock_form()
+    form_entered.entry_date = entry_date
+    form_entered.supplier = supplier
+    form_entered.amount = amount
+
+    part = models.part_stock.objects.get(id=stock_id)
+    temp_model = models.part_stock(id=stock_id,part_id=part.part_id,entry_date=entry_date,supplier=supplier,amount=amount)
+    temp_model.save()
+    return JsonResponse(data)
+
+
+
+
+
+# def part_stock_add_validate(request,pk):
+#     if request.method  == 'POST':
+#         form_entered=forms.part_stock_form(request.POST)
+#         if form_entered.is_valid():
+#             temp = models.part_stock()
+#             temp.part_id = models.part_list.objects.get(pk=pk)
+#             temp.entry_date = form_entered.cleaned_data['entry_date']
+#             temp.supplier = form_entered.cleaned_data['supplier']
+#             temp.amount = form_entered.cleaned_data['amount']
+#             temp.save()
+#             return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
+#         else:
+#             print("invalid field")
+#             return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
+#     else:
+#         return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
 
 
 def part_search(request):
