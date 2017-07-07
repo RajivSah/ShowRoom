@@ -9,6 +9,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         var global_stock_id;
+        var global_app_id;
         function display_popup(stock_id) {
             global_stock_id = stock_id;
             $('#pop_up').show();
@@ -46,6 +47,15 @@
                 }
             });
             
+        }
+
+        function display_popup_app(app_id) {
+            global_app_id=app_id;
+            $("#app_edit_form").show();
+            var temp = $("#app"+app_id+'> span').text();
+{#            window.alert(temp);#}
+            $("#app_edit_form > #app_edit_box").val(temp);
+
         }
     </script>
 </head>
@@ -102,5 +112,29 @@
 </div>
 {% endblock %}
 
+{% block applicable_model %}
+    <div>
+    <h3>Applicable Model</h3>
+    {% for model in part_temp.applicable_model_set.all %}
+        {% with id="app"|concatenate:model.id %}
+            <div id="{{ id }}">
+            <span>{{ model.applicable }}</span>
+            <button type="button" onclick="display_popup_app('{{ model.id }}')">Edit</button>
+            </div>
+        {% endwith %}
+    {% endfor %}
+    </div>
+    <div>
+    <form method="post" action="{% url 'parts:app_save' %}"  id="app_edit_form" style="display: none;">
+        {% csrf_token %}
+        <input type="text" id="app_edit_box" name="app_edi_box" >
+        <button type="submit" onclick="" >save change</button>
+    </form>
+    </div>
+{% endblock %}
+
+<div style="height: 20px">
+
+</div>
 </body>
 </html>

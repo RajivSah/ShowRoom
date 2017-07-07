@@ -15,9 +15,5 @@ class part_stock_form(forms.Form):
     supplier=forms.CharField(max_length=30)
     amount=forms.IntegerField()
 
-    # def clean(self):
-    #     entry_date=self.cleaned_data['entry_date']
-    #     print(entry_date)
-        # if not re.match(r'(\d{4})[/.-](\d{2})[/.-](\d{2})$', str(entry_date)):
-        #     raise ValidationError("enter 10")
-        # return entry_date
+class applicable_form(forms.Form):
+    applicable=forms.CharField(max_length=30)

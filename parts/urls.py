@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^search/$', views.part_search, name='part_search'),
     url(r'^form_fill/',views.form_fill,name='form_fill'),
     url(r'^stock_edit/',views.stock_edit,name='stock_edit'),
+    url(r'^app_save/',views.app_save,name='app_save')
     # url(r'^part_stock_add_validate/(?P<pk>\w+)/$',views.part_stock_add_validate,name='part_stock_add_validate'),
 ]

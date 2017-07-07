@@ -84,7 +84,7 @@ def part_details(request,pk):
             return render(request, 'part_details.html',
                           {'part_temp': temp_list, 'my_list': my_list, 'part_stock_form': form_entered})
 
-    return render(request,'part_details.html', {'part_temp':temp_list,'my_list':my_list,'part_stock_form': forms.part_stock_form})
+    return render(request,'part_details.html', {'part_temp':temp_list,'my_list':my_list,'part_stock_form': forms.part_stock_form(prefix='part_stock_form')})
 
 
 def form_fill(request):
@@ -117,6 +117,16 @@ def stock_edit(request):
     temp_model.save()
     return JsonResponse(data)
 
+def app_save(request):
+    temp =check_session_exist(request)
+    if temp != True:
+        return HttpResponseRedirect(temp)
+
+    if request.method == "POST":
+        form_entered = forms.applicable_form(request.POST)
+        print(form_entered)
+
+    return HttpResponseRedirect(reverse('parts:part_details'))
 
 
 
