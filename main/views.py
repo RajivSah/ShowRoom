@@ -1,3 +1,4 @@
+import clear as clear
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -15,6 +16,7 @@ def login_validate(request):
         print(request.session['department'])
         obj = check_session(request)
         return HttpResponseRedirect(obj)
+
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         login_info = forms.login_form(request.POST)
@@ -24,15 +26,15 @@ def login_validate(request):
             password_entered = login_info.cleaned_data['password']
             # print(username_entered,password_entered)
             check = models.user.authenticate(password_entered, username_entered)
-            print(check)
+
             if check:
-                print('valid login')
+                # print('valid login')
                 # check the type of user
                 request.session['department'] = check['department']
                 # request.session['user'] = check['object'].username
                 request.session.modified = True
                 obj = check_session(request)
-                return obj
+                return HttpResponseRedirect(obj)
             else:
                 print('invalid login')
                 return render(request, 'login.html', {'login_form': forms.login_form, 'error': 1})
@@ -55,7 +57,6 @@ def logout(request):
 
 
 def check_session(request):
-    print("in check_session")
     if request.session['department'] == "administration":
         return reverse('admin')
     elif request.session['department'] == "parts":

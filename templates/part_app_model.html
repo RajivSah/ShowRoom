@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+        $('.edit').on('click',display_popup);
+        
+            function display_popup() {
+                $("#pop_up").show();
+                $("#id_edit_app-app_id").val($(this).data("id")).hide();
+                $("#id_edit_app-applicable").val($(this).data("app_name"));
+            }
+
+        });
+    </script>
+</head>
+<body>
+<div style="position: fixed;">
+    {% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search' %}
+</div>
+<br><br><br><br>
+{% block add_app_model %}
+    <div style="position: relative;">
+    <form id="add_app_form" method="post" action="{% url 'parts:part_app_model' part_temp.part_id %}">
+        {% csrf_token %}
+        {{ add_app.applicable }}
+        <input type="submit" name="add_app_btn">
+    </form>
+    </div>
+{% endblock %}
+
+{% block list_app %}
+    {% for app_model in part_temp.applicable_model_set.all %}
+        {{ app_model }}
+        <button type="button" data-id="{{ app_model.id }}" data-app_name="{{ app_model.applicable }}" class="edit">Edit</button>
+        <br>
+    {% endfor %}
+{% endblock %}
+
+{% block edit_form %}
+    <div id="pop_up" style="display: none;">
+    <form method="post"  action="">
+        {% csrf_token %}
+        {{ edit_app.app_id }}
+        {{ edit_app.applicable }}
+        <input type="submit"name="edit_app_btn">
+    </form>
+    </div>
+{% endblock %}
+</body>
+</html>

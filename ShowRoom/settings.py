@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'employee.apps.HomeConfig',
     'parts.apps.PartsConfig',
+    'bootstrap3',
 
 ]
 
