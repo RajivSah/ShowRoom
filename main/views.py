@@ -11,9 +11,7 @@ from . import models
 
 
 def login_validate(request):
-    # newContact = contact()
     if 'department' in request.session:
-        print(request.session['department'])
         obj = check_session(request)
         return HttpResponseRedirect(obj)
 
@@ -61,6 +59,6 @@ def check_session(request):
         return reverse('admin')
     elif request.session['department'] == "parts":
         print("in parts")
-        return reverse('parts:parts_home')
+        return reverse('parts:part_list')
     else:
         return reverse('main:login_page')

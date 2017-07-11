@@ -2,20 +2,20 @@ from django.db import models
 
 
 class part_list(models.Model):
-    part_id=models.CharField(max_length=30,primary_key=True)
+    part_id=models.CharField(max_length=30,unique=True)
     part_name=models.CharField(max_length=30)
     cost=models.IntegerField(default=0)
     available_quantity=models.IntegerField(default=0)
 
     def __str__(self):
-        return self.part_id+"-"+self.part_name
+        return self.part_id
 
 class applicable_model(models.Model):
-    part_id=models.ForeignKey(part_list,on_delete=models.CASCADE)
+    partId=models.ForeignKey(part_list,on_delete=models.CASCADE)
     applicable=models.CharField(max_length=30)
 
     def __str__(self):
-        return self.applicable
+        return self.partId
 
 class part_stock(models.Model):
     part_id=models.ForeignKey(part_list,on_delete=models.CASCADE)
@@ -25,6 +25,6 @@ class part_stock(models.Model):
     remaining=models.IntegerField(default=0)
 
     def __str__(self):
-        return self.part_id.part_name
+        return self.part_id
 
 

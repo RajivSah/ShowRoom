@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div>
+{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_list' %}
+</div>
+<br><br><br><br>
+
+
+{% for part in part_list %}
+
+     <a href="{% url 'parts:part_detail' part.id %}" class="list-group-item">{{ part.part_id }} - {{ part.part_name }}</a>
+     <a href="{% url 'parts:part_update_view' part.id %}" > Edit </a>
+
+{% endfor %}
+
+</body>
+</html>

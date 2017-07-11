@@ -1,162 +1,153 @@
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
-from django.urls import reverse
-from django.db.models import Q
-from main.views import check_session
-from . import models
-from . import forms
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from .models import part_list, part_stock, applicable_model
+from .forms import part_stock_form, applicable_form
 
 
 def populate_nav_bar():
     gly_name = ['glyphicon glyphicon-plus', 'glyphicon glyphicon-log-out']
-    link_list = [reverse('parts:part_add'), reverse('main:logout')]
+    link_list = [ reverse('parts:part_add_view'), reverse('main:logout')]
     link_name = ['Add Part', 'Log Out']
     my_list = zip(gly_name, link_list, link_name)
     return my_list
 
-def check_session_exist(request):
-    try:
-        department= request.session['department']
-        if department != 'parts':
-            raise ValueError
-        return True
-    except KeyError:
-        return (reverse('main:login_page'))
-    except ValueError:
-        return (reverse('main:login_page'))
+class part_list_view(ListView):
+    model = part_list
+    context_object_name = 'part_list'
+    template_name = 'part_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(part_list_view, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        return context
 
-def parts_home(request):
-    temp =check_session_exist(request)
-    if temp != True:
-        return HttpResponseRedirect(temp)
+class part_detail_view(DetailView):
+    model = part_list
+    context_object_name = 'part_detail'
+    template_name = 'part_detail.html'
 
-    my_list=populate_nav_bar()
-    part_list_= models.part_list.objects.all()
-    return render(request,'parts.html',{'part_list': part_list_,'my_list': my_list})
+    def get_context_data(self, **kwargs):
+        context = super(part_detail_view, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        context['form'] = part_stock_form()
+        context['app_add_form'] = applicable_form()
+        self.request.session['part_id'] = self.kwargs['pk']
+        self.request.session.modified = True
+        return context
 
+class part_add_view(CreateView):
+    model = part_list
+    fields = ['part_id','part_name','cost']
+    template_name = 'part_add.html'
+    success_url = reverse_lazy('parts:part_list')
 
+    def get_context_data(self, **kwargs):
+        context = super(part_add_view, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        return context
 
-def part_add_view(request):
-    temp =check_session_exist(request)
-    if temp != True:
-        return HttpResponseRedirect(temp)
+class part_update_view(UpdateView):
+    model = part_list
+    fields = ['part_id','part_name','cost']
+    template_name = 'part_add.html'
+    success_url = reverse_lazy('parts:part_list')
 
-    my_list=populate_nav_bar()
-    return render(request,'part_add.html',{'form':forms.part_add_form,'my_list':my_list})
-
-
-def part_add_validate(request):
-    if request.method  == 'POST':
-        form_entered=forms.part_add_form(request.POST)
-        print(form_entered)
-        if form_entered.is_valid():
-            temp = models.part_list()
-            temp.part_id=form_entered.cleaned_data['part_id']
-            temp.part_name=form_entered.cleaned_data['part_name']
-            temp.cost=0 if (form_entered.cleaned_data['cost'] == None ) else form_entered.cleaned_data['cost']
-            temp.save()
-            return HttpResponseRedirect(reverse('parts:parts_home'))
-    else:
-        pass
-
-def part_details(request,pk):
-    temp =check_session_exist(request)
-    if temp != True:
-        return HttpResponseRedirect(temp)
-
-    my_list=populate_nav_bar()
-    temp_list = models.part_list.objects.get(part_id=pk)
-
-    if request.method  == 'POST':
-        form_entered=forms.part_stock_form(request.POST)
-        if form_entered.is_valid():
-            temp = models.part_stock()
-            temp.part_id = models.part_list.objects.get(pk=pk)
-            temp.entry_date = form_entered.cleaned_data['entry_date']
-            temp.supplier = form_entered.cleaned_data['supplier']
-            temp.amount = form_entered.cleaned_data['amount']
-            temp.save()
-            return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
-        else:
-            print("invalid field")
-            x="invalid"
-            return render(request, 'part_details.html',
-                          {'part_temp': temp_list, 'my_list': my_list, 'part_stock_form': form_entered})
-
-    return render(request,'part_details.html', {'part_temp':temp_list,'my_list':my_list,'part_stock_form': forms.part_stock_form(prefix='part_stock_form')})
-
-
-def form_fill(request):
-    temp = check_session_exist(request)
-    if temp != True:
-        return HttpResponseRedirect(temp)
-
-    stock_id = request.GET.get('stock_id')
-    fill = models.part_stock.objects.get(id=stock_id)
-    temp= {'entry_date':fill.entry_date , 'supplier' : fill.supplier, 'amount' : fill.amount}
-    return JsonResponse(temp)
-
-def stock_edit(request):
-    temp = check_session_exist(request)
-    if temp != True:
-        return HttpResponseRedirect(temp)
-
-    stock_id = request.GET.get('stock_id')
-    entry_date= request.GET.get('entry_date')
-    supplier = request.GET.get('supplier')
-    amount = request.GET.get(('amount'))
-    data={'stock_id':stock_id,'entry_date':entry_date,'supplier':supplier,'amount':amount}
-    form_entered = forms.part_stock_form()
-    form_entered.entry_date = entry_date
-    form_entered.supplier = supplier
-    form_entered.amount = amount
-
-    part = models.part_stock.objects.get(id=stock_id)
-    temp_model = models.part_stock(id=stock_id,part_id=part.part_id,entry_date=entry_date,supplier=supplier,amount=amount)
-    temp_model.save()
-    return JsonResponse(data)
-
-def app_save(request):
-    temp =check_session_exist(request)
-    if temp != True:
-        return HttpResponseRedirect(temp)
-
-    if request.method == "POST":
-        form_entered = forms.applicable_form(request.POST)
-        print(form_entered)
-
-    return HttpResponseRedirect(reverse('parts:part_details'))
+    def get_context_data(self, **kwargs):
+        context = super(part_update_view, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        return context
 
 
 
+class stock_add_view(CreateView):
+    model = part_stock
+    fields = ['part_id','entry_date','supplier','amount','remaining']
+    success_url = reverse_lazy('parts:part_list')
+    template_name = 'part_detail.html'
 
-# def part_stock_add_validate(request,pk):
-#     if request.method  == 'POST':
-#         form_entered=forms.part_stock_form(request.POST)
-#         if form_entered.is_valid():
-#             temp = models.part_stock()
-#             temp.part_id = models.part_list.objects.get(pk=pk)
-#             temp.entry_date = form_entered.cleaned_data['entry_date']
-#             temp.supplier = form_entered.cleaned_data['supplier']
-#             temp.amount = form_entered.cleaned_data['amount']
-#             temp.save()
-#             return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
-#         else:
-#             print("invalid field")
-#             return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
-#     else:
-#         return HttpResponseRedirect(reverse('parts:part_details',args=[pk]))
+    def get_context_data(self, **kwargs):
+        context = super(stock_add_view,self).get_context_data(**kwargs)
+        if 'part_id' in self.request.session:
+            context['part_detail'] = part_list.objects.get(pk=self.request.session['part_id'])
+        return context
 
 
-def part_search(request):
-    temp =check_session_exist(request)
-    if not temp :
-        return HttpResponseRedirect(temp)
+class stock_update_view(UpdateView):
+    model = part_stock
+    fields = ['part_id','entry_date','supplier','amount','remaining']
+    success_url = reverse_lazy('parts:part_list')
+    template_name = 'part_stock_form.html'
 
-    my_list= populate_nav_bar()
-    text=request.GET.get('search_text')
-    temp=models.part_list.objects.filter(Q(part_id__icontains=text) | Q(part_name__icontains=text))
-    return render(request,'part_search.html',{'part_list':temp,'my_list':my_list,})
+    def get_context_data(self, **kwargs):
+        context = super(stock_update_view, self).get_context_data(**kwargs)
+        context['update_form'] = context.get('form')
+        return context
+
+    def form_invalid(self, form):
+        return render(self.request, 'part_detail.html', {'form':part_stock_form(),'update_form': form, 'part_detail': part_list.objects.get(pk=self.request.session['part_id'])})
 
 
+class stock_delete_view(DeleteView):
+    model = part_stock
+    success_url = reverse_lazy('parts:part_list')
+    template_name = 'part_stock_confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(stock_delete_view, self).get_context_data(**kwargs)
+        context['delete_form'] = context.get('form')
+        return context
+
+class part_search_view(TemplateView):
+    model = part_list
+    context_object_name = 'part_list'
+    template_name = 'part_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(part_search_view, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        return context
+
+    def get_queryset(self):
+        key = self.request.GET['key']
+        return self.model.objects.filter(part_id__icontains=key)
+
+
+class app_add_view(CreateView):
+    model = applicable_model
+    fields = ['partId', 'applicable']
+    success_url = reverse_lazy('parts:part_list')
+    template_name = 'part_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(app_add_view, self).get_context_data(**kwargs)
+        if 'part_id' in self.request.session:
+            context['part_detail'] = part_list.objects.get(pk=self.request.session['part_id'])
+        return context
+
+class app_update_view(UpdateView):
+    model = applicable_model
+    fields = ['partId', 'applicable']
+    success_url = reverse_lazy('parts:part_list')
+    template_name = 'app_update_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(app_update_view, self).get_context_data(**kwargs)
+        context['app_update_form'] = context.get('form')
+        return context
+
+    def form_invalid(self, form):
+        return render(self.request, 'part_detail.html', {'app_add_form':applicable_form(),'app_update_form': form, 'part_detail':  part_list.objects.get(pk=self.request.session['part_id'])})
+
+
+class app_delete_view(DeleteView):
+    model = applicable_model
+    success_url = reverse_lazy('parts:part_list')
+    template_name = 'app_confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(app_delete_view, self).get_context_data(**kwargs)
+        if 'part_id' in self.request.session:
+            context['part_detail'] = part_list.objects.get(pk=self.request.session['part_id'])
+        return context

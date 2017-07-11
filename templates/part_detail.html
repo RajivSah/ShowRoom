@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+    $(function () {
+
+        $('.edit_btn').on('click',pop_up);
+        function pop_up() {
+            var update_url = $(this).data('url');
+            $('#update_form').attr('action',update_url);
+            $("#my_form").load(update_url,function () {
+                 $("#btn_stock_update2").show();
+            });
+        }
+        $("#id_part_id").val({{part_detail.id}}).change();
+        $("#id_partId").val({{ part_detail.id }}).change();
+
+        
+        $('.delete_btn').on('click',pop_up_delete);
+        function pop_up_delete() {
+            var delete_url = $(this).data('url');
+            $('#delete_form').attr('action', delete_url);
+            $("#delete_conformation").load(delete_url,function () {
+                $("#delete_form").show();
+            });
+        }
+          $(".app_edit_btn").on('click',pop_up_app);
+
+        function pop_up_app() {
+            var update_url = $(this).data('url');
+            $('#update_form_app').attr('action',update_url);
+            $("#my_form_app").load(update_url,function () {
+                 $("#btn_app_update2").show();
+            });
+        }
+        $(".app_delete_btn").on('click',pop_up_app_delete);
+
+        function pop_up_app_delete() {
+            var delete_url = $(this).data('url');
+            $("#delete_form_app").attr('action',delete_url);
+            $('#delete_conformation_app').load(delete_url, function () {
+                $("#delete_form_app").show();
+            });
+        }
+      });
+
+
+</script>
+<div>
+{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_list' %}
+</div>
+<br><br><br><br>
+<div>
+    {{ part_detail.part_id}}<br>
+    {{ part_detail.part_name }}<br>
+    {{ part_detail.cost }}<br>
+    {{ part_detail.available_quantity }}<br>
+</div>
+
+
+<div >
+    <form method="post" action="{% url 'parts:stock_add_view'%}">
+        {% csrf_token %}
+              {{ form }}
+        <input type="submit">
+    </form>
+</div>
+
+
+<div>
+    <form id="update_form" action="" method="post">
+        {% csrf_token %}
+        <div id="my_form">
+            {% if update_form %}
+                {{ update_form.as_table }}
+                        <input type="submit" id="btn_stock_update1" >
+            {% else %}
+                {% include 'part_stock_form.html' %}
+
+            {% endif %}
+
+        </div>
+                <input type="submit" id="btn_stock_update2" style="display: none;" >
+    </form>
+</div>
+
+
+<form id="delete_form" action="" method="post" style="display: none;">
+    {% csrf_token %}
+    <div id="delete_conformation">
+    {% include 'part_stock_confirm_delete.html' %}
+    </div>
+    <p>Are you sure you want to delete ?</p>
+    <input type="submit" value="Confirm" />
+</form>
+
+
+<div>
+    {% for stock in part_detail.part_stock_set.all %}
+        {{ stock.id }}
+        {{ stock.entry_date }}
+        {{ stock.supplier }}
+        {{ stock.amount }}
+        {{ stock.remaining_amount }}
+        <button type="button" class="edit_btn"   data-url="{% url 'parts:stock_update_view' stock.id %}">Edit</button>
+        <button type="button" class="delete_btn"   data-url="{% url 'parts:stock_delete_view' stock.id %}">Delete</button>
+        <br>
+    {% endfor %}
+</div>
+
+
+<div >
+    <form method="post" action="{% url 'parts:app_add_view'%}">
+        {% csrf_token %}
+              {{ app_add_form }}
+        <input type="submit">
+    </form>
+</div>
+
+<div>
+    {% for app in part_detail.applicable_model_set.all %}
+        {{ app.applicable }}
+         <button type="button" class="app_edit_btn"   data-url="{% url 'parts:app_update_view' app.id %}">Edit</button>
+         <button type="button" class="app_delete_btn"   data-url="{% url 'parts:app_delete_view' app.id %}">Delete</button>
+        <br>
+    {% endfor %}
+</div>
+
+<form id="delete_form_app" action="" method="post" style="display: none;">
+    {% csrf_token %}
+    <div id="delete_conformation_app">
+    {% include 'app_confirm_delete.html' %}
+    </div>
+    <p>Are you sure you want to delete ?</p>
+    <input type="submit" value="Confirm" />
+</form>
+
+
+<div>
+    <form id="update_form_app" action="" method="post">
+        {% csrf_token %}
+        <div id="my_form_app">
+            {% if app_update_form %}
+                {{ app_update_form.as_table }}
+                <input type="submit" id="btn_app_update1" >
+            {% else %}
+                {% include 'app_update_form.html' %}
+            {% endif %}
+        </div>
+        <input type="submit" id="btn_app_update2" style="display: none;" >
+    </form>
+</div>
+
+
+</body>
+</html>
