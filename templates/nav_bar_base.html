@@ -18,7 +18,7 @@
     <ul class="nav navbar-nav">
 
     </ul>
-    <form action="#" role="form" class="navbar-form navbar-left" method="get" >
+    <form action="{% url search_link %}" role="form" class="navbar-form navbar-left" method="get" >
         {% csrf_token %}
         <div class="form-group ">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search_text">

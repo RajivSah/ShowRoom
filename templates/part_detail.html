@@ -55,7 +55,7 @@
 
 </script>
 <div>
-{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_list' %}
+{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search_view' %}
 </div>
 <br><br><br><br>
 <div>
@@ -109,7 +109,7 @@
         {{ stock.entry_date }}
         {{ stock.supplier }}
         {{ stock.amount }}
-        {{ stock.remaining_amount }}
+        {{ stock.remaining }}
         <button type="button" class="edit_btn"   data-url="{% url 'parts:stock_update_view' stock.id %}">Edit</button>
         <button type="button" class="delete_btn"   data-url="{% url 'parts:stock_delete_view' stock.id %}">Delete</button>
         <br>

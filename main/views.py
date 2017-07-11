@@ -58,7 +58,6 @@ def check_session(request):
     if request.session['department'] == "administration":
         return reverse('admin')
     elif request.session['department'] == "parts":
-        print("in parts")
         return reverse('parts:part_list')
     else:
         return reverse('main:login_page')
