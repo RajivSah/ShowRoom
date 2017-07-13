@@ -93,7 +93,6 @@ class part_update_view(UpdateView):
 class stock_add_view(CreateView):
     model = part_stock
     fields = ['part_id','entry_date','supplier','amount','remaining']
-    success_url = reverse_lazy('parts:part_list')
     template_name = 'part_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -109,11 +108,13 @@ class stock_add_view(CreateView):
         else:
             return super(stock_add_view,self).get(request,*args, **kwargs)
 
+    def get_success_url(self):
+        return reverse('parts:part_detail',args=[self.request.session['part_id']])
+
 
 class stock_update_view(UpdateView):
     model = part_stock
     fields = ['part_id','entry_date','supplier','amount','remaining']
-    success_url = reverse_lazy('parts:part_list')
     template_name = 'part_stock_form.html'
 
     def get_context_data(self, **kwargs):
@@ -122,7 +123,7 @@ class stock_update_view(UpdateView):
         return context
 
     def form_invalid(self, form):
-        return render(self.request, 'part_detail.html', {'form':part_stock_form(),'update_form': form, 'part_detail': part_list.objects.get(pk=self.request.session['part_id'])})
+        return render(self.request, 'part_detail.html', {'form':part_stock_form(),'update_form': form,'app_add_form':applicable_form(), 'part_detail': part_list.objects.get(pk=self.request.session['part_id'])})
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
@@ -130,6 +131,10 @@ class stock_update_view(UpdateView):
             return HttpResponseRedirect(temp)
         else:
             return super(stock_update_view,self).get(request,*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('parts:part_detail', args=[self.request.session['part_id']])
+
 
 class stock_delete_view(DeleteView):
     model = part_stock

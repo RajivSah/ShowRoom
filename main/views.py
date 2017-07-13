@@ -2,7 +2,6 @@ import clear as clear
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.contrib.auth import login, authenticate
 
 
 
@@ -34,7 +33,6 @@ def login_validate(request):
                 obj = check_session(request)
                 return HttpResponseRedirect(obj)
             else:
-                print('invalid login')
                 return render(request, 'login.html', {'login_form': forms.login_form, 'error': 1})
 
         else:

@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 class part_list(models.Model):
@@ -19,9 +20,9 @@ class applicable_model(models.Model):
 
 class part_stock(models.Model):
     part_id=models.ForeignKey(part_list,on_delete=models.CASCADE)
-    entry_date=models.DateField()
+    entry_date=models.DateField(default=datetime.datetime.today().strftime('%Y-%m-%d'))
     supplier=models.CharField(max_length=30)
-    amount=models.IntegerField()
+    amount=models.IntegerField(default=0)
     remaining=models.IntegerField(default=0)
 
     def __str__(self):
