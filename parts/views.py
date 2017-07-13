@@ -92,7 +92,7 @@ class part_update_view(UpdateView):
 
 class stock_add_view(CreateView):
     model = part_stock
-    fields = ['part_id','entry_date','supplier','amount','remaining']
+    fields = ['part_id','entry_date','supplier','amount']
     template_name = 'part_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -114,7 +114,7 @@ class stock_add_view(CreateView):
 
 class stock_update_view(UpdateView):
     model = part_stock
-    fields = ['part_id','entry_date','supplier','amount','remaining']
+    fields = ['part_id','entry_date','supplier','amount']
     template_name = 'part_stock_form.html'
 
     def get_context_data(self, **kwargs):

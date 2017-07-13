@@ -12,7 +12,7 @@ class part_list(models.Model):
         return self.part_id
 
 class applicable_model(models.Model):
-    partId=models.ForeignKey(part_list,on_delete=models.CASCADE)
+    partId=models.ForeignKey(part_list, on_delete=models.CASCADE)
     applicable=models.CharField(max_length=30)
 
     def __str__(self):
@@ -23,9 +23,12 @@ class part_stock(models.Model):
     entry_date=models.DateField(default=datetime.datetime.today().strftime('%Y-%m-%d'))
     supplier=models.CharField(max_length=30)
     amount=models.IntegerField(default=0)
-    remaining=models.IntegerField(default=0)
 
     def __str__(self):
-        return self.part_id
+        return str(self.entry_date)
 
 
+class part_processing(models.Model):
+    pID = models.ForeignKey(part_list,on_delete=models.CASCADE)
+    out_date = models.DateField(default=datetime.datetime.today().strftime('%Y-%m-%d'))
+    req_form_no = models.IntegerField(default=0)

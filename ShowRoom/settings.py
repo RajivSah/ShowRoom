@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'parts.apps.PartsConfig',
     'bootstrap3',
     'customer.apps.CustomerConfig',
+    'models.apps.ModelsConfig',
 
 ]
 
