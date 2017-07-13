@@ -235,6 +235,9 @@ class app_delete_view(DeleteView):
             return super(app_delete_view,self).get(request,*args, **kwargs)
 
 
+
+
+
 def check_session_exist(request):
     try:
         department= request.session['department']
