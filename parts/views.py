@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import part_list, part_stock, applicable_model
 from .forms import part_stock_form, applicable_form
+from customer.models import customer_info
 
 
 def populate_nav_bar():
@@ -235,7 +236,19 @@ class app_delete_view(DeleteView):
             return super(app_delete_view,self).get(request,*args, **kwargs)
 
 
+def ajax_customer_search(request):
+    if request.is_ajax():
+        q =request.GET.get('q')
+        if q is not None:
+            results = customer_info.objects.filter(
+                Q(fName__icontains=q) |
+                Q(lName__icontains=q)
+            )
 
+            return  render(request, 'results.html', {'results':results})
+
+def index(request):
+    return render(request, 'index.html', {})
 
 
 def check_session_exist(request):

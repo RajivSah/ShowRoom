@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^add_app/$',views.app_add_view.as_view(),name='app_add_view'),
     url(r'^update_app/(?P<pk>\d+)/$',views.app_update_view.as_view(),name='app_update_view'),
     url(r'^delete_app(?P<pk>\d+)/$',views.app_delete_view.as_view(),name='app_delete_view'),
+    url(r'^search_page/$', views.index, name='search_page'),
+    url(r'^search_customer/$',views.ajax_customer_search,name='search_customer'),
 ]
