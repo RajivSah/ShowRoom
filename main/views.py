@@ -49,7 +49,10 @@ def logout(request):
     if request.session.has_key('department'):
         del request.session['department']
         request.session.modified = True
-    return render(request, 'login.html', {'login_form': forms.login_form})
+    if 'part_id' in request.session:
+        del request.session['part_id']
+        request.session.modified = True
+    return HttpResponseRedirect(reverse('main:login_page'))
 
 
 def check_session(request):

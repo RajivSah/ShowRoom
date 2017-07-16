@@ -1,6 +1,6 @@
 from django.db import models
 import datetime
-from models.models import customer_vehicle_info
+from vehicle_models.models import customer_vehicle_info
 
 class part_list(models.Model):
     part_id=models.CharField(max_length=30,unique=True)

@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
-<script type="text/javascript">
+{% extends 'parts_base.html' %}
+
+{%  block javascript %}
+    <script type="text/javascript">
 
     $(function () {
 
@@ -23,7 +16,7 @@
         $("#id_part_id").val({{part_detail.id}}).change();
         $("#id_partId").val({{ part_detail.id }}).change();
 
-        
+
         $('.delete_btn').on('click',pop_up_delete);
         function pop_up_delete() {
             var delete_url = $(this).data('url');
@@ -54,18 +47,23 @@
 
 
 </script>
-<div>
-{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search_view' %}
-</div>
-<br><br><br><br>
-<div>
-    {{ part_detail.part_id}}<br>
+{% endblock %}
+
+{# part details #}
+{% block body %}
+    <div>
+    {{ part_detail.part_id}}
+        <form action="{% url 'parts:part_processing' %}" method="post" style="float: right">
+            {% csrf_token %}
+            <button type="submit">Send an entry</button>
+        </form>
+        <br>
     {{ part_detail.part_name }}<br>
     {{ part_detail.cost }}<br>
     {{ part_detail.available_quantity }}<br>
-</div>
+    </div>
 
-
+{#stock add form#}
 <div >
     <form method="post" action="{% url 'parts:stock_add_view'%}">
         {% csrf_token %}
@@ -74,6 +72,7 @@
     </form>
 </div>
 
+{#update stock moodal#}
 <div class="modal fade" id="update_form_modal" role="dialog">
     <div class="modal-dialog">
 
@@ -109,6 +108,7 @@
     </div>
   </div>
 
+{# update form of part stock   #}
 <div>
     <form id="update_form" action="" method="post">
         {% csrf_token %}
@@ -126,7 +126,7 @@
     </form>
 </div>
 
-
+{# delete conformation of part stock#}
 <form id="delete_form" action="" method="post" style="display: none;">
     {% csrf_token %}
     <div id="delete_conformation">
@@ -136,7 +136,7 @@
     <input type="submit" value="Confirm" />
 </form>
 
-
+{# list of all part stock#}
 <div>
     {% for stock in part_detail.part_stock_set.all %}
         {{ stock.id }}
@@ -149,7 +149,7 @@
     {% endfor %}
 </div>
 
-
+{#applicable model add form#}
 <div >
     <form method="post" action="{% url 'parts:app_add_view'%}">
         {% csrf_token %}
@@ -157,7 +157,7 @@
         <input type="submit">
     </form>
 </div>
-
+{#list of all applicable model #}
 <div>
     {% for app in part_detail.applicable_model_set.all %}
         {{ app.applicable }}
@@ -167,6 +167,7 @@
     {% endfor %}
 </div>
 
+{#delete conformation of applicable model#}
 <form id="delete_form_app" action="" method="post" style="display: none;">
     {% csrf_token %}
     <div id="delete_conformation_app">
@@ -176,7 +177,7 @@
     <input type="submit" value="Confirm" />
 </form>
 
-
+{# update modal of applicable model #}
 <div>
     <form id="update_form_app" action="" method="post">
         {% csrf_token %}
@@ -192,6 +193,4 @@
     </form>
 </div>
 
-{% include 'index.html' %}
-</body>
-</html>
+{% endblock %}

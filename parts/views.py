@@ -2,10 +2,12 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import part_list, part_stock, applicable_model
 from .forms import part_stock_form, applicable_form
 from customer.models import customer_info
+from customer.forms import cstm_add_form
+
 
 
 def populate_nav_bar():
@@ -27,7 +29,7 @@ class part_list_view(ListView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(part_list_view,self).get(request,*args, **kwargs)
@@ -48,7 +50,7 @@ class part_detail_view(DetailView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(part_detail_view,self).get(request,*args, **kwargs)
@@ -66,7 +68,7 @@ class part_add_view(CreateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(part_add_view,self).get(request,*args, **kwargs)
@@ -84,7 +86,7 @@ class part_update_view(UpdateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(part_update_view,self).get(request,*args, **kwargs)
@@ -104,7 +106,7 @@ class stock_add_view(CreateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(stock_add_view,self).get(request,*args, **kwargs)
@@ -128,7 +130,7 @@ class stock_update_view(UpdateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(stock_update_view,self).get(request,*args, **kwargs)
@@ -149,7 +151,7 @@ class stock_delete_view(DeleteView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(stock_delete_view,self).get(request,*args, **kwargs)
@@ -171,7 +173,7 @@ class part_search_view(ListView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(part_search_view,self).get(request,*args, **kwargs)
@@ -191,7 +193,7 @@ class app_add_view(CreateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(app_add_view,self).get(request,*args, **kwargs)
@@ -212,7 +214,7 @@ class app_update_view(UpdateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(app_update_view,self).get(request,*args, **kwargs)
@@ -230,7 +232,7 @@ class app_delete_view(DeleteView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if temp != True:
+        if not temp:
             return HttpResponseRedirect(temp)
         else:
             return super(app_delete_view,self).get(request,*args, **kwargs)
@@ -249,6 +251,27 @@ def ajax_customer_search(request):
 
 def index(request):
     return render(request, 'index.html', {})
+
+
+class parts_processing(TemplateView):
+    template_name = 'parts_processing.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(parts_processing, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        if 'part_id' in self.request.session:
+            context['part_detail'] = part_list.objects.get(pk=self.request.session['part_id'])
+        context['customer_add_form']= cstm_add_form()
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        temp = check_session_exist(self.request)
+        if not temp:
+            return HttpResponseRedirect(temp)
+        else:
+            return super(parts_processing,self).get(request,*args, **kwargs)
+
+
 
 
 def check_session_exist(request):

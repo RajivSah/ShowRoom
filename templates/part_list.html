@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'parts_base.html' %}
 
-</head>
-<body>
-<div>
-{% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search_view' %}
-</div>
-<br><br><br><br>
-
+{% block body %}
 
 {% for part in part_list %}
 
@@ -19,5 +9,4 @@
 
 {% endfor %}
 
-</body>
-</html>
+{% endblock %}
