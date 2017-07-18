@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^employee/', include('employee.urls')),
     url(r'^parts/',include('parts.urls')),
     url(r'^',include('main.urls')),
-    url(r'^vehicle_models/', include('vehicle_models.urls'))
+    url(r'^vehicle_models/', include('vehicle_models.urls')),
+    url(r'^customer/',include('customer.urls')),
 
 ]
