@@ -1,0 +1,5 @@
+<form>
+    {% for customer in results %}
+        <input type="radio" name="customer">{{ customer.fName }} {{ customer.lName }}<br>
+    {% endfor %}
+</form>

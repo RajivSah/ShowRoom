@@ -1,0 +1,11 @@
+<form action="" method="post">
+    {% csrf_token %}
+    {{ AddModelFirst.as_p }}
+    <button type="submit">Add</button>
+</form>
+
+<form action="{%   url 'vehicle_models:add_model_last' %}" method="post">
+    {% csrf_token %}
+    {{ AddModelLast.as_p }}
+    <button type="submit">Add</button>
+</form>

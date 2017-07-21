@@ -1,7 +1,7 @@
+import clear as clear
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.contrib.auth import login, authenticate
 
 
 
@@ -10,11 +10,10 @@ from . import models
 
 
 def login_validate(request):
-    # newContact = contact()
     if 'department' in request.session:
-        print(request.session['department'])
         obj = check_session(request)
         return HttpResponseRedirect(obj)
+
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         login_info = forms.login_form(request.POST)
@@ -24,17 +23,16 @@ def login_validate(request):
             password_entered = login_info.cleaned_data['password']
             # print(username_entered,password_entered)
             check = models.user.authenticate(password_entered, username_entered)
-            print(check)
+
             if check:
-                print('valid login')
+                # print('valid login')
                 # check the type of user
                 request.session['department'] = check['department']
                 # request.session['user'] = check['object'].username
                 request.session.modified = True
                 obj = check_session(request)
-                return obj
+                return HttpResponseRedirect(obj)
             else:
-                print('invalid login')
                 return render(request, 'login.html', {'login_form': forms.login_form, 'error': 1})
 
         else:
@@ -51,15 +49,16 @@ def logout(request):
     if request.session.has_key('department'):
         del request.session['department']
         request.session.modified = True
-    return render(request, 'login.html', {'login_form': forms.login_form})
+    if 'part_id' in request.session:
+        del request.session['part_id']
+        request.session.modified = True
+    return HttpResponseRedirect(reverse('main:login_page'))
 
 
 def check_session(request):
-    print("in check_session")
     if request.session['department'] == "administration":
         return reverse('admin')
     elif request.session['department'] == "parts":
-        print("in parts")
-        return reverse('parts:parts_home')
+        return reverse('parts:part_list')
     else:
         return reverse('main:login_page')

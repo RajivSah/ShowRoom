@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +41,9 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'employee.apps.HomeConfig',
     'parts.apps.PartsConfig',
+    'bootstrap3',
+    'customer.apps.CustomerConfig',
+    'vehicle_models.apps.ModelsConfig',
 
 ]
 
