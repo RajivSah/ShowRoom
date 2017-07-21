@@ -2,7 +2,6 @@ import clear as clear
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.contrib.auth import login, authenticate
 
 
 
@@ -11,9 +10,7 @@ from . import models
 
 
 def login_validate(request):
-    # newContact = contact()
     if 'department' in request.session:
-        print(request.session['department'])
         obj = check_session(request)
         return HttpResponseRedirect(obj)
 
@@ -36,7 +33,6 @@ def login_validate(request):
                 obj = check_session(request)
                 return HttpResponseRedirect(obj)
             else:
-                print('invalid login')
                 return render(request, 'login.html', {'login_form': forms.login_form, 'error': 1})
 
         else:
@@ -53,14 +49,16 @@ def logout(request):
     if request.session.has_key('department'):
         del request.session['department']
         request.session.modified = True
-    return render(request, 'login.html', {'login_form': forms.login_form})
+    if 'part_id' in request.session:
+        del request.session['part_id']
+        request.session.modified = True
+    return HttpResponseRedirect(reverse('main:login_page'))
 
 
 def check_session(request):
     if request.session['department'] == "administration":
         return reverse('admin')
     elif request.session['department'] == "parts":
-        print("in parts")
-        return reverse('parts:parts_home')
+        return reverse('parts:part_list')
     else:
         return reverse('main:login_page')

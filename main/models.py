@@ -5,7 +5,7 @@ class department(models.Model):
     name=models.CharField(max_length=30)
     address_city = models.CharField(max_length=30)
     address_district = models.CharField(max_length=30)
-    contact=PhoneNumberField()
+    contact = models.BigIntegerField()
     email=models.EmailField()
 
     def __str__(self):
@@ -20,7 +20,7 @@ class employee(models.Model):
     last_name=models.CharField(max_length=30)
     address_city=models.CharField(max_length=30)
     address_district=models.CharField(max_length=30)
-    contact=PhoneNumberField()
+    contact=models.BigIntegerField()
     salary=models.IntegerField()
     department_id=models.ForeignKey(department,on_delete=models.CASCADE)
     Gender=models.CharField(max_length=10,choices=GEND_CHOICES)

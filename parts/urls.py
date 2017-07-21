@@ -1,15 +1,22 @@
 from django.conf.urls import url
+from django.urls import reverse
+
 from . import views
 
 app_name='parts'
 urlpatterns = [
-    url(r'^$',views.parts_home,name='parts_home'),
-    url(r'^add_part',views.part_add_view,name='part_add'),
-    url(r'^part_add_validate',views.part_add_validate,name='part_add_validate'),
-    url(r'^details/(?P<pk>\w+)/$',views.part_details,name='part_details'),
-    url(r'^search/$', views.part_search, name='part_search'),
-    url(r'^stock_edit/',views.stock_edit,name='stock_edit'),
-    url(r'^app_save/',views.app_save,name='app_save'),
-    url(r'^app_model/(?P<pk>\w+)/$',views.part_app_model,name='part_app_model'),
-    # url(r'^part_stock_add_validate/(?P<pk>\w+)/$',views.part_stock_add_validate,name='part_stock_add_validate'),
+    url(r'^$',views.part_list_view.as_view(),name='part_list'),
+    url(r'^detail/(?P<pk>\d+)/$',views.part_detail_view.as_view(),name='part_detail'),
+    url(r'^add$',views.part_add_view.as_view(),name='part_add_view'),
+    url(r'^update/(?P<pk>\d+)/$',views.part_update_view.as_view(),name='part_update_view'),
+    url(r'^add_stock/$',views.stock_add_view.as_view(),name='stock_add_view'),
+    url(r'^update_stock/(?P<pk>\d+)/$',views.stock_update_view.as_view(),name='stock_update_view'),
+    url(r'^delete_stock/(?P<pk>\d+)/$',views.stock_delete_view.as_view(),name='stock_delete_view'),
+    url(r'^search/',views.part_search_view.as_view(),name='part_search_view'),
+    url(r'^add_app/$',views.app_add_view.as_view(),name='app_add_view'),
+    url(r'^update_app/(?P<pk>\d+)/$',views.app_update_view.as_view(),name='app_update_view'),
+    url(r'^delete_app(?P<pk>\d+)/$',views.app_delete_view.as_view(),name='app_delete_view'),
+    url(r'^search_page/$', views.index, name='search_page'),
+    url(r'^search_customer/$',views.ajax_customer_search,name='search_customer'),
+    url(r'^part_processing/$',views.parts_processing.as_view(), name = 'part_processing'),
 ]

@@ -1,6 +1,5 @@
 from django.conf.urls import url,include
 from django.contrib import admin
-from main.views import home_page, login_validate
 
 
 urlpatterns = [
@@ -8,5 +7,7 @@ urlpatterns = [
     url(r'^employee/', include('employee.urls')),
     url(r'^parts/',include('parts.urls')),
     url(r'^',include('main.urls')),
+    url(r'^vehicle_models/', include('vehicle_models.urls')),
+    url(r'^customer/',include('customer.urls')),
 
 ]

@@ -1,8 +1,5 @@
 from django import forms
-import datetime
-import re
-
-from django.core.exceptions import ValidationError
+from .models import part_stock, applicable_model
 
 
 class part_add_form(forms.Form):
@@ -10,12 +7,12 @@ class part_add_form(forms.Form):
     part_name=forms.CharField(max_length=30)
     cost=forms.IntegerField(required=False)
 
-class part_stock_form(forms.Form):
-    stock_id=forms.CharField(max_length=30,required=False)
-    entry_date=forms.DateField(widget=forms.DateInput(),initial=datetime.date.today())
-    supplier=forms.CharField(max_length=30)
-    amount=forms.IntegerField()
+class part_stock_form(forms.ModelForm):
+    class Meta:
+        model = part_stock
+        fields = '__all__'
 
-class applicable_form(forms.Form):
-    app_id=forms.CharField(max_length=30,required=False);
-    applicable=forms.CharField(max_length=30)
+class applicable_form(forms.ModelForm):
+    class Meta:
+        model = applicable_model
+        fields = '__all__'

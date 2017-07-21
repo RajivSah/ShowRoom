@@ -1,0 +1,24 @@
+{% extends 'parts_base.html' %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $(function () {
+            $("#cstm_add_btn").on('click',function () {
+                $("#cstm_add_form").fadeIn();
+            })
+        })
+    </script>
+{% endblock %}
+
+{% block body %}
+    {% include 'index.html' %}
+    <button type="button" id="cstm_add_btn" style="float: right;">New customer</button>
+
+    <div id="cstm_add_form" style="display: none;">
+        <form action="" method="post">
+            {{ customer_add_form.as_p }}
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+{% endblock %}
