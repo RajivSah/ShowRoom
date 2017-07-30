@@ -1,0 +1,9 @@
+{% extends 'employee_base.html' %}
+
+{% block body %}
+    {{ employee.first_name }}  {{ employee.last_name }}<br>
+    {{ employee.address_city }}, {{ employee.address_district }}<br>
+    {{ employee.contact }}<br>
+    {{ employee.department_id.name }}<br>
+    {{ employee.joined_date }}<br>
+{% endblock %}
