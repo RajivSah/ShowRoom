@@ -4,12 +4,18 @@
 
 <script type="text/javascript">
 $( document ).ready( function() {
-
+    var url = "{% url 'parts:search_customer' %}?q=" + '';
+    $( "#results" ).html( "&nbsp;" ).load( url );
     $("#searchSubmit").on('click',function () {
         var q = $( "#q" ).val();
         var url = "{% url 'parts:search_customer' %}?q=" + q;
         $( "#results" ).html( "&nbsp;" ).load( url );
+
+
     });
+
+
+
 
 });
 
@@ -28,7 +34,6 @@ $( "#spinner" ).hide();
 <input id="q" type="text"/>
 <input id="searchSubmit" type="submit" value="Search"/>
 <br/>
-<span class="hint">Type in a query string to search for users</span>
 <div class="margin">
 <span id="spinner"><img src="http://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif"/></span>
 <div id="results">

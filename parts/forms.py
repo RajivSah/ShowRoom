@@ -1,5 +1,5 @@
 from django import forms
-from .models import part_stock, applicable_model
+from .models import part_stock, applicable_model,part_processing
 
 
 class part_add_form(forms.Form):
@@ -16,3 +16,9 @@ class applicable_form(forms.ModelForm):
     class Meta:
         model = applicable_model
         fields = '__all__'
+
+class part_processing_form(forms.ModelForm):
+    class Meta:
+        model = part_processing
+        fields = '__all__'
+

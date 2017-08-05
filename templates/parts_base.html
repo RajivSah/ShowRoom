@@ -10,9 +10,10 @@
     {% endblock %}
 </head>
 <body>
+{% load widget_tweaks %}
 {% block nav-bar %}
     <div>
-        {% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search_view' home_link='parts:part_list' %}
+        {% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search_view' home_link='parts:part_list' name='Parts'%}
     </div>
     <br><br><br><br>
 {% endblock %}

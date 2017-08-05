@@ -1,5 +1,38 @@
+<html>
+
+<head>
+<title>Django/jQuery AJAX Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+        $(function () {
+
+             $('input[name="customer"]').click(function(){
+             if ($(this).is(':checked'))
+             {
+                  $("#id_vehicle_id").val($(this).data('id')).change();
+                   $("#id_pID").val({{ part_id }}).change();
+
+             }
+  });
+
+        })
+
+    </script>
+    </head>
+
 <form>
-    {% for customer in results %}
-        <input type="radio" name="customer">{{ customer.fName }} {{ customer.lName }}<br>
+    {% for rel in results %}
+        <input type="radio" name="customer" class="vehicle_select" data-id="{{ rel.id }}" >{{ rel.id }}-{{ rel.customerId.fName}}-{{ rel.customerId.lName }}-{{ rel.VRN }}<br>
     {% endfor %}
 </form>
+
+    <form action="{% url 'parts:part_pro_add' %}" method="post">
+        {%  csrf_token %}
+     {{ part_pro_form }}
+        <input type="submit">
+    </form>
+
+
+
