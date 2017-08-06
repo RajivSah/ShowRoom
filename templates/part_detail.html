@@ -21,7 +21,9 @@
         function pop_up_delete() {
             var delete_url = $(this).data('url');
             $('#delete_form').attr('action', delete_url);
-
+{#            $("#delete_conformation").load(delete_url,function () {#}
+{#                $("#delete_form").show();#}
+{#            });#}
         }
           $(".app_edit_btn").on('click',pop_up_app);
 
@@ -49,17 +51,18 @@
 
 {# part details #}
 {% block body %}
-    <div>
-    {{ part_detail.part_id}}
-        <form action="{% url 'parts:part_processing'  %}" method="get" style="float: right">
+    <div class="container">
+    <a href="{% url 'parts:part_update_view' part_detail.id %}" style="float: right" class="btn btn-success"> Edit </a>
+    <h3>
+    Part Id: {{ part_detail.part_id}}<br>
+    Part Name: {{ part_detail.part_name }}<br>
+    Cost:{{ part_detail.cost }}<br>
+    Available Stock: {{ part_detail.available_quantity }}
+    </h3>
+    <form action="{% url 'parts:part_processing'  %}" method="get" style="float: right" >
             {% csrf_token %}
-            <button type="submit">Send an entry</button>
-        </form>
-        <br>
-    {{ part_detail.part_name }}<br>
-    {{ part_detail.cost }}<br>
-    {{ part_detail.available_quantity }}<br>
-    <a href="{% url 'parts:part_update_view' part_detail.id %}" > Edit </a>
+            <button type="submit" class="btn btn-success">Send an entry</button>
+    </form>
     </div>
 
 
@@ -68,6 +71,7 @@
     <div class="container">
     <h3>Add Stock</h3>
     <form method="post" class="form-inline" action="{% url 'parts:stock_add_view'%}">
+        {{ form.errors }}
     {% csrf_token %}
         <div class="form-group" ><label for="id_part_id">Part id:</label>{{ form.part_id|add_class:"form-control"}}</div>
         <div class="form-group" ><label for="id_entry_date">Entry date:</label>{{ form.entry_date|add_class:"form-control" }}</div>
@@ -90,9 +94,10 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Update Stock</h4>
         </div>
+      <form id="update_form" action="" method="post" >
         <div class="modal-body">
           <div>
-    <form id="update_form" action="" method="post">
+
         {% csrf_token %}
         <div id="my_form">
             {% if update_form %}
@@ -104,13 +109,13 @@
             {% endif %}
 
         </div>
-                <input type="submit" id="btn_stock_update2" style="display: none;" >
-    </form>
-</div>
-        </div>
+        <br>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" id="btn_stock_update2" style="display: none;" class="btn btn-primary">
+            </div>
+            </div>
         </div>
+      </form>
       </div>
 
     </div>
@@ -118,23 +123,26 @@
 
 {# update form of part stock   #}
 <div>
-    <form id="update_form" action="" method="post">
+    <form id="update_form" action="" method="post"  class="col-sm-2">
         {% csrf_token %}
         <div id="my_form">
             {% if update_form %}
-                {{ update_form.as_table }}
-                        <input type="submit" id="btn_stock_update1" >
-            {% else %}
-                {% include 'part_stock_form.html' %}
+                {{ update_form.errors}}
+
+                <div class="form-group" ><label for="id_part_id" class="control-label">Part id:</label>{{ update_form.part_id|add_class:"form-control"}}</div>
+                <div class="form-group" ><label for="id_entry_date" class="control-label">Entry date:</label>{{ update_form.entry_date|add_class:"form-control" }}</div>
+                <div class="form-group" ><label for="id_supplier" class="control-label">Supplier:</label>{{ update_form.supplier|add_class:"form-control" }}</div>
+                <div class="form-group" ><label for="id_amount" class="control-label">Amount:</label>{{ update_form.amount|add_class:"form-control" }}</div>
+                <input type="submit" id="btn_stock_update2" class="btn btn-primary">
+{#            {% else %}#}
+{#                {% include 'part_stock_form.html' %}#}
 
             {% endif %}
 
         </div>
-                <input type="submit" id="btn_stock_update2" style="display: none;" >
+{#                <input type="submit" id="btn_stock_update2" style="display: none;" >#}
     </form>
 </div>
-
-{# delete conformation of part stock#}
 
 <div id="confirmModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -145,24 +153,24 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Confirm Deletion</h4>
       </div>
+        <form id="delete_form" action="" method="post"  >
       <div class="modal-body">
-        <form id="delete_form" action="" method="post" style="display: none;">
     {% csrf_token %}
     <div id="delete_conformation">
     {% include 'part_stock_confirm_delete.html' %}
     </div>
     <p>Are you sure  want to delete ?</p>
-    <input type="submit" value="Confirm" />
-     </form>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <input type="submit" value="Confirm" class="btn btn-danger"/>
       </div>
+            </form>
     </div>
 
   </div>
 </div>
-{##}
+
 {#<form id="delete_form" action="" method="post" style="display: none;">#}
 {#    {% csrf_token %}#}
 {#    <div id="delete_conformation">#}
@@ -173,7 +181,7 @@
 {#</form>#}
 
 {# list of all part stock#}
-<div>
+<div class="container">
   <table class="table table-striped">
       <thead>
       <tr>
@@ -195,23 +203,44 @@
     {% endfor %}
   </table>
 </div>
+    <hr>
 
 {#applicable model add form#}
-<div >
-    <form method="post" action="{% url 'parts:app_add_view'%}">
+<div class="container" >
+    <h2>Add Applicable Model</h2>
+    <form method="post" class="form-inline" action="{% url 'parts:app_add_view'%}">
         {% csrf_token %}
-              {{ app_add_form }}
-        <input type="submit">
+        <div class="form-group ">
+        <label >Part Id: </label>{{ app_add_form.partId|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+        <label  >Model: </label>{{ app_add_form.applicable|add_class:"form-control"  }}
+        </div>
+        <input type="submit" class="btn btn-primary">
     </form>
 </div>
 {#list of all applicable model #}
-<div>
-    {% for app in part_detail.applicable_model_set.all %}
-        {{ app.applicable }}
-         <button type="button" class="app_edit_btn"   data-url="{% url 'parts:app_update_view' app.id %}">Edit</button>
-         <button type="button" class="app_delete_btn"   data-url="{% url 'parts:app_delete_view' app.id %}">Delete</button>
-        <br>
-    {% endfor %}
+<div class="container">
+ <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for app in part_detail.applicable_model_set.all %}
+            <tr>
+            <th>{{ app.applicable }}</th>
+            <th><button type="button" class="app_edit_btn"   data-url="{% url 'parts:app_update_view' app.id %}">Edit</button></th>
+            <th><button type="button" class="app_delete_btn"   data-url="{% url 'parts:app_delete_view' app.id %}">Delete</button></th>
+            </tr>
+        {% endfor %}
+    </tbody>
+ </table>
+
+
 </div>
 
 {#delete conformation of applicable model#}
@@ -239,5 +268,6 @@
         <input type="submit" id="btn_app_update2" style="display: none;" >
     </form>
 </div>
+<br>
 
 {% endblock %}

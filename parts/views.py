@@ -102,6 +102,7 @@ class stock_add_view(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(stock_add_view,self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
         if 'part_id' in self.request.session:
             context['part_detail'] = part_list.objects.get(pk=self.request.session['part_id'])
         return context
@@ -134,6 +135,7 @@ class stock_update_view(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(stock_update_view, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
         context['update_form'] = context.get('form')
         return context
 
