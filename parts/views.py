@@ -3,8 +3,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import part_list, part_stock, applicable_model
-from .forms import part_stock_form, applicable_form
+
+from vehicle_models.models import customer_vehicle_info
+from .models import part_list, part_stock, applicable_model,part_processing
+from .forms import part_stock_form, applicable_form,part_processing_form
 from customer.models import customer_info
 from customer.forms import cstm_add_form
 
@@ -29,10 +31,10 @@ class part_list_view(ListView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(part_list_view, self).get(request, *args, **kwargs)
         else:
-            return super(part_list_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 class part_detail_view(DetailView):
     model = part_list
@@ -50,10 +52,10 @@ class part_detail_view(DetailView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(part_detail_view, self).get(request, *args, **kwargs)
         else:
-            return super(part_detail_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 class part_add_view(CreateView):
     model = part_list
@@ -68,10 +70,10 @@ class part_add_view(CreateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(part_add_view, self).get(request, *args, **kwargs)
         else:
-            return super(part_add_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 class part_update_view(UpdateView):
     model = part_list
@@ -86,10 +88,10 @@ class part_update_view(UpdateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(part_update_view, self).get(request, *args, **kwargs)
         else:
-            return super(part_update_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 
 
@@ -106,14 +108,24 @@ class stock_add_view(CreateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(stock_update_view, self).get(request, *args, **kwargs)
         else:
-            return super(stock_add_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
     def get_success_url(self):
         return reverse('parts:part_detail',args=[self.request.session['part_id']])
 
+    def post(self, request, *args, **kwargs):
+        form = part_stock_form(request.POST)
+        if form.is_valid():
+            part_id = form.cleaned_data['part_id']
+            amount = form.cleaned_data['amount']
+            temp = part_list.objects.get(part_id = part_id)
+            temp.available_quantity+=amount
+            temp.save()
+
+        return super(stock_add_view,self).post(request,*args, **kwargs)
 
 class stock_update_view(UpdateView):
     model = part_stock
@@ -130,13 +142,26 @@ class stock_update_view(UpdateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(stock_update_view, self).get(request, *args, **kwargs)
         else:
-            return super(stock_update_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
     def get_success_url(self):
         return reverse('parts:part_detail', args=[self.request.session['part_id']])
+
+    def post(self, request, *args, **kwargs):
+        form = part_stock_form(request.POST)
+        if form.is_valid():
+            part_id = form.cleaned_data['part_id']
+            amount = form.cleaned_data['amount']
+            temp = part_list.objects.get(part_id = part_id)
+            temp2 =part_stock.objects.get(pk = self.kwargs['pk'])
+            prevAmount = temp2.amount
+            temp.available_quantity+=amount-prevAmount
+            temp.save()
+
+        return super(stock_update_view,self).post(request,*args, **kwargs)
 
 
 class stock_delete_view(DeleteView):
@@ -151,10 +176,18 @@ class stock_delete_view(DeleteView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
-        else:
-            return super(stock_delete_view,self).get(request,*args, **kwargs)
+        if temp == False:
+            if temp == True:
+                return super(stock_delete_view, self).get(request, *args, **kwargs)
+            else:
+                return HttpResponseRedirect(temp)
+
+    def post(self, request, *args, **kwargs):
+        temp =part_stock.objects.get(pk = self.kwargs['pk'])
+        temp2 = part_list.objects.get(part_id=temp.part_id)
+        temp2.available_quantity-=temp.amount
+        temp2.save()
+        return super(stock_delete_view,self).post(request,*args, **kwargs)
 
 class part_search_view(ListView):
     model = part_list
@@ -173,10 +206,10 @@ class part_search_view(ListView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(part_search_view, self).get(request, *args, **kwargs)
         else:
-            return super(part_search_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 
 class app_add_view(CreateView):
@@ -193,10 +226,10 @@ class app_add_view(CreateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(app_add_view, self).get(request, *args, **kwargs)
         else:
-            return super(app_add_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 class app_update_view(UpdateView):
     model = applicable_model
@@ -214,10 +247,10 @@ class app_update_view(UpdateView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(app_update_view, self).get(request, *args, **kwargs)
         else:
-            return super(app_update_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 class app_delete_view(DeleteView):
     model = applicable_model
@@ -232,22 +265,22 @@ class app_delete_view(DeleteView):
 
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(app_update_view, self).get(request, *args, **kwargs)
         else:
-            return super(app_delete_view,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
 
 def ajax_customer_search(request):
     if request.is_ajax():
         q =request.GET.get('q')
         if q is not None:
-            results = customer_info.objects.filter(
-                Q(fName__icontains=q) |
-                Q(lName__icontains=q)
+            results = customer_vehicle_info.objects.filter(
+                Q(VRN__icontains=q)|
+                Q(customerId__fName__icontains=q)
             )
 
-            return  render(request, 'results.html', {'results':results})
+            return render(request, 'results.html', {'results':results,'part_pro_form' : part_processing_form(),'part_id': request.session["part_id"]})
 
 def index(request):
     return render(request, 'index.html', {})
@@ -261,17 +294,46 @@ class parts_processing(TemplateView):
         context['my_list'] = populate_nav_bar()
         if 'part_id' in self.request.session:
             context['part_detail'] = part_list.objects.get(pk=self.request.session['part_id'])
-        context['customer_add_form']= cstm_add_form()
+        context['part_pro_form'] = part_processing_form()
         return context
     
     def get(self, request, *args, **kwargs):
         temp = check_session_exist(self.request)
-        if not temp:
-            return HttpResponseRedirect(temp)
+        if temp == True :
+            return super(parts_processing, self).get(request, *args, **kwargs)
         else:
-            return super(parts_processing,self).get(request,*args, **kwargs)
+            return HttpResponseRedirect(temp)
 
+class PartProAdd(CreateView):
+    model = part_processing
+    fields = ['pID', 'out_date', 'req_form_no', 'quantity', 'vehicle_id']
+    success_url = reverse_lazy('parts:part_list')
+    template_name = 'parts_processing.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(PartProAdd, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        if 'part_id' in self.request.session:
+            context['part_detail'] = part_list.objects.get(pk=self.request.session['part_id'])
+        return context
+
+    def get(self, request, *args, **kwargs):
+        temp = check_session_exist(self.request)
+        if temp == True :
+            return super(PartProAdd, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(temp)
+
+    def post(self, request, *args, **kwargs):
+        form = part_processing_form(request.POST)
+        if form.is_valid():
+            part_id = form.cleaned_data['pID']
+            amount = form.cleaned_data['quantity']
+            temp = part_list.objects.get(part_id = part_id)
+            temp.available_quantity-=amount
+            temp.save()
+
+        return super(PartProAdd,self).post(request,*args, **kwargs)
 
 
 def check_session_exist(request):

@@ -1,5 +1,5 @@
 {% extends 'parts_base.html' %}
-
+{% load widget_tweaks %}
 {%  block javascript %}
     <script type="text/javascript">
 
@@ -21,9 +21,7 @@
         function pop_up_delete() {
             var delete_url = $(this).data('url');
             $('#delete_form').attr('action', delete_url);
-            $("#delete_conformation").load(delete_url,function () {
-                $("#delete_form").show();
-            });
+
         }
           $(".app_edit_btn").on('click',pop_up_app);
 
@@ -53,7 +51,7 @@
 {% block body %}
     <div>
     {{ part_detail.part_id}}
-        <form action="{% url 'parts:part_processing' %}" method="post" style="float: right">
+        <form action="{% url 'parts:part_processing'  %}" method="get" style="float: right">
             {% csrf_token %}
             <button type="submit">Send an entry</button>
         </form>
@@ -61,16 +59,26 @@
     {{ part_detail.part_name }}<br>
     {{ part_detail.cost }}<br>
     {{ part_detail.available_quantity }}<br>
+    <a href="{% url 'parts:part_update_view' part_detail.id %}" > Edit </a>
     </div>
 
+
 {#stock add form#}
-<div >
-    <form method="post" action="{% url 'parts:stock_add_view'%}">
-        {% csrf_token %}
-              {{ form }}
-        <input type="submit">
+    <hr>
+    <div class="container">
+    <h3>Add Stock</h3>
+    <form method="post" class="form-inline" action="{% url 'parts:stock_add_view'%}">
+    {% csrf_token %}
+        <div class="form-group" ><label for="id_part_id">Part id:</label>{{ form.part_id|add_class:"form-control"}}</div>
+        <div class="form-group" ><label for="id_entry_date">Entry date:</label>{{ form.entry_date|add_class:"form-control" }}</div>
+        <div class="form-group" ><label for="id_supplier">Supplier:</label>{{ form.supplier|add_class:"form-control" }}</div>
+        <div class="form-group" ><label for="id_amount">Amount:</label>{{ form.amount|add_class:"form-control" }}</div>
+        <input type="submit" class="btn btn-primary">
+
     </form>
-</div>
+    </div>
+    <hr>
+
 
 {#update stock moodal#}
 <div class="modal fade" id="update_form_modal" role="dialog">
@@ -127,26 +135,65 @@
 </div>
 
 {# delete conformation of part stock#}
-<form id="delete_form" action="" method="post" style="display: none;">
+
+<div id="confirmModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        <form id="delete_form" action="" method="post" style="display: none;">
     {% csrf_token %}
     <div id="delete_conformation">
     {% include 'part_stock_confirm_delete.html' %}
     </div>
-    <p>Are you sure you want to delete ?</p>
+    <p>Are you sure  want to delete ?</p>
     <input type="submit" value="Confirm" />
-</form>
+     </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{##}
+{#<form id="delete_form" action="" method="post" style="display: none;">#}
+{#    {% csrf_token %}#}
+{#    <div id="delete_conformation">#}
+{#    {% include 'part_stock_confirm_delete.html' %}#}
+{#    </div>#}
+{#    <p>Are you sure  want to delete ?</p>#}
+{#    <input type="submit" value="Confirm" />#}
+{#</form>#}
 
 {# list of all part stock#}
 <div>
+  <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Entry Date</th>
+        <th>Supplier</th>
+        <th>Quantity</th>
+          <th>Edit</th>
+          <th>Delete</th>
+      </tr>
+    </thead>
     {% for stock in part_detail.part_stock_set.all %}
-        {{ stock.id }}
-        {{ stock.entry_date }}
-        {{ stock.supplier }}
-        {{ stock.amount }}
-        <button type="button" class="edit_btn"  data-toggle="modal" data-target="#update_form_modal"  data-url="{% url 'parts:stock_update_view' stock.id %}">Edit</button>
-        <button type="button" class="delete_btn"   data-url="{% url 'parts:stock_delete_view' stock.id %}">Delete</button>
-        <br>
+        <tr>
+        <th>{{ stock.entry_date }}</th>
+        <th>{{ stock.supplier }}</th>
+        <th>{{ stock.amount }}</th>
+        <th><button type="button" class="edit_btn"  data-toggle="modal" data-target="#update_form_modal"  data-url="{% url 'parts:stock_update_view' stock.id %}">Edit</button></th>
+        <th><button type="button" class="delete_btn"  data-toggle="modal" data-target="#confirmModal" data-url="{% url 'parts:stock_delete_view' stock.id %}">Delete</button></th>
+        </tr>
     {% endfor %}
+  </table>
 </div>
 
 {#applicable model add form#}

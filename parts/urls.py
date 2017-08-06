@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^search_page/$', views.index, name='search_page'),
     url(r'^search_customer/$',views.ajax_customer_search,name='search_customer'),
     url(r'^part_processing/$',views.parts_processing.as_view(), name = 'part_processing'),
+    url(r'^part_pro_add/$',views.PartProAdd.as_view(),name= 'part_pro_add')
 ]

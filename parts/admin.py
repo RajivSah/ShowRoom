@@ -5,3 +5,4 @@ from . import  models
 admin.site.register(models.part_list)
 admin.site.register(models.part_stock)
 admin.site.register(models.applicable_model)
+admin.site.register(models.part_processing)

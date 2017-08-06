@@ -3,22 +3,24 @@
 {% block javascript %}
     <script type="text/javascript">
         $(function () {
-            $("#cstm_add_btn").on('click',function () {
-                $("#cstm_add_form").fadeIn();
-            })
+
+
         })
     </script>
 {% endblock %}
 
 {% block body %}
+    <h3>{{ part_detail.part_id }}<br>
+    {{ part_detail.part_name }}<br>
+    {{ part_detail.cost }}<br>
+    {{ part_detail.available_quantity }}</h3>
     {% include 'index.html' %}
-    <button type="button" id="cstm_add_btn" style="float: right;">New customer</button>
 
-    <div id="cstm_add_form" style="display: none;">
-        <form action="" method="post">
-            {{ customer_add_form.as_p }}
-            <button type="submit">Add</button>
-        </form>
+    <a href="{% url 'customer:customer_add' %}">Add New customer</a>
+
+    <div>
+        {% for result in part_detail.part_processing_set.all %}
+            {{ result }}<br>
+        {% endfor %}
     </div>
-
 {% endblock %}
