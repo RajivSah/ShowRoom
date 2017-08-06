@@ -1,8 +1,26 @@
 {% extends 'parts_base.html' %}
+{% load widget_tweaks %}
 {% block body %}
-<form action="" method="post">
+    <style>
+    #btn{
+        position: absolute ;
+        left: 52% !important;
+        width: 10%!important;
+    }
+    </style>
+    <h2 align="center">Add New Part</h2>
+        <hr>
+    <div class="container col-md-offset-4"  >
+
+<form action="" method="post" class="form-horizontal">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save" />
+        <div class="form-group "><label class="control-label col-sm-1">{{ form.part_id.label}}</label><div class="col-sm-3">{{ form.part_id|add_class:"form-control"}}</div></div>
+    <div class="form-group  "><label class="control-label col-sm-1">Name</label><div class="col-sm-3">{{ form.part_name|add_class:"form-control" }}</div></div>
+    <div class="form-group "><label class="control-label col-sm-1">{{ form.cost.label }}</label><div class="col-sm-3">{{ form.cost|add_class:"form-control" }}</div></div>
+    <input type="submit" value="Save" class="btn btn-primary" id="btn" />
 </form>
+    </div>
+    <br>
+    <br>
+    <hr>
 {% endblock %}
