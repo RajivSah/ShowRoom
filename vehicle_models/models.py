@@ -25,7 +25,9 @@ class customer_vehicle_info(models.Model):
     VIN = models.CharField(max_length=40)
 
     def __str__(self):
-        return str(self.customerId)+"-"+str(self.model_lastId)
+        return self.VRN
+        #return str(self.customerId)+"-"+str(self.model_lastId)
+
 
 class model_stock(models.Model):
     modelLastId = models.ForeignKey(model_last,on_delete=models.CASCADE)

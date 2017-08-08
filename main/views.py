@@ -1,4 +1,3 @@
-import clear as clear
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Q
 from django.shortcuts import render

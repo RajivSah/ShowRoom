@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'customer.apps.CustomerConfig',
     'vehicle_models.apps.ModelsConfig',
+    'workshop.apps.WorkshopConfig',
 
 ]
 

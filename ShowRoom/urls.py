@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^',include('main.urls')),
     url(r'^vehicle_models/', include('vehicle_models.urls')),
     url(r'^customer/',include('customer.urls')),
+    url(r'^workshop/',include('workshop.urls')),
 
 ]
