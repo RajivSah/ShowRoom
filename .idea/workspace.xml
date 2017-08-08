@@ -2,31 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0a61e06-109a-40ee-bf22-87d162e5fde5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/admin.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/apps.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/migrations/0001_initial.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/migrations/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/models.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/tests.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/urls.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workshop/views.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/main/migrations/0002_auto_20170713_1900.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/parts/migrations/0002_auto_20170713_1920.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/parts/migrations/0003_part_processing_req_form_no.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/parts/migrations/0004_part_processing_quantity.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/parts/migrations/0005_auto_20170716_1136.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ShowRoom.iml" afterPath="$PROJECT_DIR$/.idea/ShowRoom.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ShowRoom/settings.py" afterPath="$PROJECT_DIR$/ShowRoom/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ShowRoom/urls.py" afterPath="$PROJECT_DIR$/ShowRoom/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/customer/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/customer/migrations/0001_initial.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/main/migrations/0001_initial.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views.py" afterPath="$PROJECT_DIR$/main/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parts/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/parts/migrations/0001_initial.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/vehicle_models/migrations/0001_initial.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/models.py" afterPath="$PROJECT_DIR$/vehicle_models/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -411,6 +387,14 @@
       <option name="presentableId" value="Default" />
       <updated>1502001401639</updated>
     </task>
+    <task id="LOCAL-00001" summary="added workshop app, changed return value of __str__ for customer vehicle info as self.VRN">
+      <created>1502180454659</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1502180454659</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -424,14 +408,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="12" y="0" width="1370" height="772" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="manage.py@ShowRoom" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4531722" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="manage.py@ShowRoom" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4531722" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24298376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -453,6 +436,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added workshop app, changed return value of __str__ for customer vehicle info as self.VRN" />
+    <option name="LAST_COMMIT_MESSAGE" value="added workshop app, changed return value of __str__ for customer vehicle info as self.VRN" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
