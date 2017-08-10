@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import model_last, model_first, model_stock, customer_vehicle_info
+from . import  models
 # Register your vehicle_models here.
-admin.site.register(model_stock)
-admin.site.register(model_first)
-admin.site.register(model_last)
-admin.site.register(customer_vehicle_info)
+
+admin.site.register(models.Manufacturer)
+admin.site.register(models.VehicleCategory)
+admin.site.register(models.VehicleName)
+admin.site.register(models.VehicleModels)
+admin.site.register(models.ModelDetails)
+admin.site.register(models.customer_vehicle_info)

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'customer.apps.CustomerConfig',
     'vehicle_models.apps.ModelsConfig',
     'workshop.apps.WorkshopConfig',
+    'showrooms.apps.ShowroomsConfig',
 
 ]
 

@@ -1,11 +1,72 @@
+{% extends 'model_base.html' %}
+{% block body %}
+
+<span> ..............................Manufacturer.............................</span>
 <form action="" method="post">
     {% csrf_token %}
-    {{ AddModelFirst.as_p }}
+    {{ Manufacturer.as_p }}
     <button type="submit">Add</button>
-</form>
+</form><br><br>
 
-<form action="{%   url 'vehicle_models:add_model_last' %}" method="post">
+
+
+<span> ............................Vehicle Category..............................</span>
+
+<form action="{% url 'vehicle_models:add_category' %}" method="post">
     {% csrf_token %}
-    {{ AddModelLast.as_p }}
+    {{ Category.as_p }}
     <button type="submit">Add</button>
-</form>
+</form><br><br>
+
+
+
+
+<span> .................Vehicle Name.............................................</span>
+
+
+<form action="{% url 'vehicle_models:add_name'%}" method="post">
+    {% csrf_token %}
+    {{ VehicleName.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+<span> ..............................Models...................................</span>
+
+
+<form action="{% url 'vehicle_models:add_new_models'%}" method="post">
+    {% csrf_token %}
+    {{ Model.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+<span> .................................Model Details............................</span>
+
+<form action="{% url 'vehicle_models:add_model_details'%}" method="post">
+    {% csrf_token %}
+    {{ ModelDetails.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+<span> .................................Model Import............................</span>
+
+<form action="{% url 'vehicle_models:addImport'%}" method="post">
+    {% csrf_token %}
+    {{ ImportDetails.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+<span> .................................Model Import(Beta)............................</span>
+
+<form action="{% url 'vehicle_models:processImport'%}" method="post">
+    {% csrf_token %}
+    {{ ImportDetails.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+
+
+{% endblock %}
