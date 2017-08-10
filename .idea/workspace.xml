@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0a61e06-109a-40ee-bf22-87d162e5fde5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/customer/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/main/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/parts/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/vehicle_models/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/workshop/migrations/0001_initial.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ShowRoom/settings.py" afterPath="$PROJECT_DIR$/ShowRoom/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ShowRoom/urls.py" afterPath="$PROJECT_DIR$/ShowRoom/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views.py" afterPath="$PROJECT_DIR$/main/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/add_model.html" afterPath="$PROJECT_DIR$/templates/add_model.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/admin.py" afterPath="$PROJECT_DIR$/vehicle_models/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/forms.py" afterPath="$PROJECT_DIR$/vehicle_models/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/models.py" afterPath="$PROJECT_DIR$/vehicle_models/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/urls.py" afterPath="$PROJECT_DIR$/vehicle_models/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/views.py" afterPath="$PROJECT_DIR$/vehicle_models/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -649,7 +635,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502180584787</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="showrooms added with some modification on vehicle_models">
+      <created>1502357011446</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1502357011446</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -717,7 +710,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added workshop app, changed return value of __str__ for customer vehicle info as self.VRN" />
-    <option name="LAST_COMMIT_MESSAGE" value="added workshop app, changed return value of __str__ for customer vehicle info as self.VRN" />
+    <MESSAGE value="showrooms added with some modification on vehicle_models" />
+    <option name="LAST_COMMIT_MESSAGE" value="showrooms added with some modification on vehicle_models" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
