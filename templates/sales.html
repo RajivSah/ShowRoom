@@ -1,0 +1,9 @@
+ {% extends 'sales_base.html' %}
+
+ {% block body %}
+     <form action="{% url 'showrooms:newSale' %}" method="post">
+    {% csrf_token %}
+    {{ newSaleForm.as_p }}
+    <button type="submit">Add</button>
+</form>
+ {% endblock %}

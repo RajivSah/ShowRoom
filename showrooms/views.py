@@ -74,6 +74,7 @@ class ManufacturerListView(ListView):
         else:
             return super(ManufacturerListView,self).get(request,*args, **kwargs)
 
+
 class CategoryListView(ListView):
     model = VehicleCategory
     context_object_name = 'category_list'
@@ -90,6 +91,7 @@ class CategoryListView(ListView):
             return HttpResponseRedirect(temp)
         else:
             return super(CategoryListView,self).get(request,*args, **kwargs)
+
 
 class VehicleNameListView(ListView):
     model = VehicleName
