@@ -60,6 +60,8 @@ def check_session(request):
         return reverse('admin')
     elif request.session['department'] == "parts":
         return reverse('parts:part_list')
+    elif request.session['department'] == "workshop":
+        return reverse('workshop:Workshop')
     else:
         return reverse('main:login_page')
 
