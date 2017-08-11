@@ -1,11 +1,18 @@
 {% extends 'workshop_base.html' %}
 {% block body %}
-    <div>
-        {{ workshop_details.vid }}<br>
-         {{ workshop_details.date }}<br>
-         {{ workshop_details.job_order }}<br>
-         {{ workshop_details.job_done}}<br>
-         {{ workshop_details.e_id}}<br>
+    <div class ="panel panel-info ">
 
+         <div class="panel-heading">
+
+        <h1>{{ workshop_details.vid }}<br></h1>
+         </div>
+        <div class="panel-body">
+
+        <h3>{{ workshop_details.date }}<br>
+            {{ workshop_details.job_order }}<br>
+            {{ workshop_details.job_done}}<br>
+            {{ workshop_details.e_id}}<br>
+        </h3>
+        </div>
     </div>
 {% endblock %}

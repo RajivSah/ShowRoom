@@ -4,7 +4,7 @@ from .models import job_records
 from django.urls import reverse,reverse_lazy
 from django.views.generic import ListView,DetailView,CreateView
 from .forms import jobrecord_form
-
+from django.db.models import Q
 
 def populate_nav_bar():
         gly_name = ['glyphicon glyphicon-plus', 'glyphicon glyphicon-log-out']
@@ -26,6 +26,12 @@ class workshop_list_view(ListView):
         context = super(workshop_list_view, self).get_context_data(**kwargs)
         context['my_list'] = populate_nav_bar()
         return context
+    def get(self, request, *args, **kwargs):
+        temp = check_session_exist(self.request)
+        if temp == True :
+            return super(workshop_list_view, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(temp)
 
 
 
@@ -54,6 +60,12 @@ class workshop_detail_view(DetailView):
     def get_queryset(self):
         pk=self.kwargs['pk']
         return job_records.objects.filter(id=pk )
+    def get(self, request, *args, **kwargs):
+        temp = check_session_exist(self.request)
+        if temp == True :
+            return super(workshop_detail_view, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(temp)
 
 class workshop_add_view(CreateView):
     model = job_records
@@ -67,5 +79,39 @@ class workshop_add_view(CreateView):
         context['my_list'] = populate_nav_bar()
         context['form'] = jobrecord_form
         return context
+    def get(self, request, *args, **kwargs):
+        temp = check_session_exist(self.request)
+        if temp == True :
+            return super(workshop_add_view, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(temp)
 
 
+class workshop_search_view(ListView):
+    model = job_records
+    context_object_name = 'workshop_list'
+    template_name = 'workshop.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(workshop_search_view, self).get_context_data(**kwargs)
+        context['my_list'] = populate_nav_bar()
+        return context
+
+    def get_queryset(self):
+        key = self.request.GET['search_text']
+        joblist = job_records.objects.filter(Q(vid__icontains=key)|Q(e_id__icontains=key))
+        return joblist
+
+    def get(self, request, *args, **kwargs):
+        temp = check_session_exist(self.request)
+        if temp == True :
+            return super(workshop_search_view, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(temp)
+
+    def get(self, request, *args, **kwargs):
+        temp = check_session_exist(self.request)
+        if temp == True :
+            return super(workshop_search_view, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(temp)
