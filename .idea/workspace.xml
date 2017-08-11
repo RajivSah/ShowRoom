@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0a61e06-109a-40ee-bf22-87d162e5fde5" name="Default" comment="showrooms added with some modification on vehicle_models">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ShowRoom.iml" afterPath="$PROJECT_DIR$/.idea/ShowRoom.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="b0a61e06-109a-40ee-bf22-87d162e5fde5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ShowRoom/settings.py" afterPath="$PROJECT_DIR$/ShowRoom/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ShowRoom/urls.py" afterPath="$PROJECT_DIR$/ShowRoom/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/add_model.html" afterPath="$PROJECT_DIR$/templates/add_model.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/category_list.html" afterPath="$PROJECT_DIR$/templates/category_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/sales.html" afterPath="$PROJECT_DIR$/templates/sales.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/vehicle_name_list.html" afterPath="$PROJECT_DIR$/templates/vehicle_name_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/models.py" afterPath="$PROJECT_DIR$/vehicle_models/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/urls.py" afterPath="$PROJECT_DIR$/vehicle_models/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vehicle_models/views.py" afterPath="$PROJECT_DIR$/vehicle_models/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -459,7 +448,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502362532066</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="showrooms added with some modification on vehicle_models">
+      <created>1502452322833</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1502452322833</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
