@@ -96,7 +96,7 @@ class AddVehicleName(CreateView):
     model = VehicleName
     template_name = 'add_model.html'
     success_url = reverse_lazy('vehicle_models:add_model')
-    fields = ['category','vehicleName']
+    fields = ['category','vehicleName','image']
 
     def get_context_data(self, **kwargs):
         context = super(AddVehicleName, self).get_context_data(**kwargs)

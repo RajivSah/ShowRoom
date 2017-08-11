@@ -1,5 +1,7 @@
 from django.conf.urls import url,include
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -12,4 +14,4 @@ urlpatterns = [
     url(r'^workshop/',include('workshop.urls')),
     url(r'^showrooms/',include('showrooms.urls')),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,9 +1,31 @@
 {% extends 'model_base.html' %}
 
 {% block body %}
-
 {% for vehicle in vehicle_name_list %}
-<a href="{% url 'showrooms:modelList' vehicle.id %}" class="list-group-item">{{ vehicle.vehicleName }}<br>
+
+
+
+     <div class="col-sm-3">
+          <a href="{% url 'showrooms:modelList' vehicle.id %}" class="list-group-item">
+              <div class="thumbnail">
+                  {% if vehicle.image %}
+                        <img src="{{vehicle.image.url}}">
+                  {% endif %}
+
+                 <div class="caption">
+                     <h3>{{ vehicle.vehicleName }}</h3>
+                     <p>{{ vehicle.vehicleName }}</p>
+
+                </div>
+        </div>
+
+
+
+
+        </a>
+    </div>
+
+
 
 
 
@@ -11,3 +33,4 @@
 {% endfor %}
 
 {% endblock %}
+

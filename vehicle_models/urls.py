@@ -1,6 +1,7 @@
 from .views import *
 from django.conf.urls import url
 
+
 app_name ='vehicle_models'
 
 urlpatterns = [

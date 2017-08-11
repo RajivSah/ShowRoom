@@ -14,10 +14,12 @@
               </div>
 
               <div class="panel-body">
-                <form action="" method="post">
+                <form action="" method="post" class="post-form">
                     {% csrf_token %}
                     {{ Manufacturer.as_p }}
-                    <button type="submit">Add</button>
+
+                    <button type="submit" class="btn btn-md btn-success">Add Manufacturer</button>
+
                 </form>
               </div>
           </div>
@@ -36,7 +38,7 @@
                 <form action="{% url 'vehicle_models:add_category' %}" method="post">
                     {% csrf_token %}
                     {{ Category.as_p }}
-                    <button type="submit">Add</button>
+                    <button type="submit" class="btn btn-md btn-success">Add Category</button>
                 </form>
               </div>
           </div>
@@ -56,7 +58,7 @@
                 <form action="{% url 'vehicle_models:add_name'%}" method="post">
                     {% csrf_token %}
                     {{ VehicleName.as_p }}
-                     <button type="submit">Add</button>
+                     <button type="submit" class="btn btn-md btn-success">Add Vehicle</button>
                     </form>
                 </form>
               </div>
@@ -73,10 +75,10 @@
               </div>
 
               <div class="panel-body">
-                <form action="{% url 'vehicle_models:add_new_models'%}" method="post">
+                <form action="{% url 'vehicle_models:add_new_models'%}" method="post" class="post-form">
                     {% csrf_token %}
-                    {{ Model.as_p }}
-                     <button type="submit">Add</button>
+                    {{ Model.as_p}}
+                     <button type="submit" class="btn btn-md btn-success">Add Model</button>
                 </form>
               </div>
           </div>
@@ -95,7 +97,7 @@
                 <form action="{% url 'vehicle_models:add_model_details'%}" method="post">
                     {% csrf_token %}
                     {{ ModelDetails.as_p }}
-                    <button type="submit">Add</button>
+                    <button type="submit" class="btn btn-md btn-success">Add Details</button>
                 </form>
               </div>
           </div>
@@ -115,7 +117,7 @@
                 <form action="{% url 'vehicle_models:addImport'%}" method="post">
                     {% csrf_token %}
                     {{ ImportDetails.as_p }}
-                    <button type="submit">Add</button>
+                    <button type="submit" class="btn btn-md btn-success">Add Imports</button>
                 </form>
               </div>
           </div>
@@ -127,6 +129,13 @@
 </div>
 
 {% endblock %}
+
+
+
+
+
+
+
 
 
 <span> ..............................Manufacturer.............................</span>
