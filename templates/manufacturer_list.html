@@ -1,0 +1,14 @@
+{% extends 'model_base.html' %}
+
+{% block body %}
+
+{% for manufacturer in manufacturer %}
+    <a href="{% url 'showrooms:categoryList' manufacturer.id %}" class="list-group-item">{{ manufacturer.manufacturer }}<br>
+    <a href="{% url 'vehicle_models:updateModel' manufacturer.id %}" > Edit </a>
+
+
+
+
+{% endfor %}
+
+{% endblock %}

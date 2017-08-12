@@ -1,11 +1,202 @@
+{% extends 'model_base.html' %}
+{% block body %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<div class="row">
+
+
+        <div class="col-sm-4">
+          <div class="panel panel-primary">
+
+              <div class="panel-heading">
+                    <h3 class="panel-title">Manufacturer</h3>
+              </div>
+
+              <div class="panel-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ Manufacturer.as_p }}
+                    <button type="submit">Add</button>
+                </form>
+              </div>
+          </div>
+        </div>
+
+
+
+     <div class="col-sm-4">
+          <div class="panel panel-primary">
+
+              <div class="panel-heading">
+                    <h3 class="panel-title">Vehicle Category</h3>
+              </div>
+
+              <div class="panel-body">
+                <form action="{% url 'vehicle_models:add_category' %}" method="post">
+                    {% csrf_token %}
+                    {{ Category.as_p }}
+                    <button type="submit">Add</button>
+                </form>
+              </div>
+          </div>
+        </div>
+
+
+
+
+    <div class="col-sm-4">
+          <div class="panel panel-primary">
+
+              <div class="panel-heading">
+                    <h3 class="panel-title">Vehicle Name</h3>
+              </div>
+
+              <div class="panel-body">
+                <form action="{% url 'vehicle_models:add_name'%}" method="post">
+                    {% csrf_token %}
+                    {{ VehicleName.as_p }}
+                     <button type="submit">Add</button>
+                    </form>
+                </form>
+              </div>
+          </div>
+        </div>
+
+
+
+    <div class="col-sm-4">
+          <div class="panel panel-primary">
+
+              <div class="panel-heading">
+                    <h3 class="panel-title">Vehicle Models</h3>
+              </div>
+
+              <div class="panel-body">
+                <form action="{% url 'vehicle_models:add_new_models'%}" method="post">
+                    {% csrf_token %}
+                    {{ Model.as_p }}
+                     <button type="submit">Add</button>
+                </form>
+              </div>
+          </div>
+        </div>
+
+
+
+    <div class="col-sm-4">
+          <div class="panel panel-primary">
+
+              <div class="panel-heading">
+                    <h3 class="panel-title">Model Details</h3>
+              </div>
+
+              <div class="panel-body">
+                <form action="{% url 'vehicle_models:add_model_details'%}" method="post">
+                    {% csrf_token %}
+                    {{ ModelDetails.as_p }}
+                    <button type="submit">Add</button>
+                </form>
+              </div>
+          </div>
+        </div>
+
+
+
+
+    <div class="col-sm-4">
+          <div class="panel panel-primary">
+
+              <div class="panel-heading">
+                    <h3 class="panel-title">Model Imports</h3>
+              </div>
+
+              <div class="panel-body">
+                <form action="{% url 'vehicle_models:addImport'%}" method="post">
+                    {% csrf_token %}
+                    {{ ImportDetails.as_p }}
+                    <button type="submit">Add</button>
+                </form>
+              </div>
+          </div>
+        </div>
+
+
+
+
+</div>
+
+{% endblock %}
+
+
+<span> ..............................Manufacturer.............................</span>
 <form action="" method="post">
     {% csrf_token %}
-    {{ AddModelFirst.as_p }}
+    {{ Manufacturer.as_p }}
     <button type="submit">Add</button>
 </form>
 
-<form action="{%   url 'vehicle_models:add_model_last' %}" method="post">
+
+
+<span> ............................Vehicle Category..............................</span>
+
+<form action="{% url 'vehicle_models:add_category' %}" method="post">
     {% csrf_token %}
-    {{ AddModelLast.as_p }}
+    {{ Category.as_p }}
     <button type="submit">Add</button>
-</form>
+</form><br><br>
+
+
+
+
+<span> .................Vehicle Name.............................................</span>
+
+
+<form action="{% url 'vehicle_models:add_name'%}" method="post">
+    {% csrf_token %}
+    {{ VehicleName.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+<span> ..............................Models...................................</span>
+
+
+<form action="{% url 'vehicle_models:add_new_models'%}" method="post">
+    {% csrf_token %}
+    {{ Model.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+<span> .................................Model Details............................</span>
+
+<form action="{% url 'vehicle_models:add_model_details'%}" method="post">
+    {% csrf_token %}
+    {{ ModelDetails.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+<span> .................................Model Import............................</span>
+
+<form action="{% url 'vehicle_models:addImport'%}" method="post">
+    {% csrf_token %}
+    {{ ImportDetails.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+<span> .................................Model Import(Beta)............................</span>
+
+<form action="{% url 'vehicle_models:processImport'%}" method="post">
+    {% csrf_token %}
+    {{ ImportDetails.as_p }}
+    <button type="submit">Add</button>
+</form><br><br>
+
+
+
+
+
+
+

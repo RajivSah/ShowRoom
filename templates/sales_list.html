@@ -1,0 +1,13 @@
+{% extends 'sales_base.html' %}
+
+{% block body %}
+
+{% for sales in sales_list %}
+[{{sales.customer}}]  [{{ sales.model.vehicleName.category }}->{{ sales.model.vehicleName }}->{{ sales.model }}]  [{{sales.dateOfSale}}] [{{sales.soldRate}}] [{{sales.VIN}}] [{{sales.VRN}}] [{{sales.VIN}}]<br>
+
+
+
+
+{% endfor %}
+
+{% endblock %}
