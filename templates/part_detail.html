@@ -54,10 +54,14 @@
     <div class="container">
     <a href="{% url 'parts:part_update_view' part_detail.id %}" style="float: right" class="btn btn-success"> Edit </a>
     <h3>
-    Part Id: {{ part_detail.part_id}}<br>
-    Part Name: {{ part_detail.part_name }}<br>
-    Cost:{{ part_detail.cost }}<br>
-    Available Stock: {{ part_detail.available_quantity }}
+        <table>
+            <tbody>
+            <tr><td>Part Id: </td><td>{{ part_detail.part_id}}</td></tr>
+            <tr><td>Part Name:</td><td> {{ part_detail.part_name }}</td></tr>
+            <tr><td>Cost:</td><td>{{ part_detail.cost }}</td></tr>
+            <tr><td>Available Stock: &nbsp;&nbsp;</td><td> {{ part_detail.available_quantity }}</td></tr>
+            </tbody>
+        </table>
     </h3>
     <form action="{% url 'parts:part_processing'  %}" method="get" style="float: right" >
             {% csrf_token %}
@@ -233,8 +237,8 @@
         {% for app in part_detail.applicable_model_set.all %}
             <tr>
             <th>{{ app.applicable }}</th>
-            <th><button type="button" class="app_edit_btn"   data-url="{% url 'parts:app_update_view' app.id %}">Edit</button></th>
-            <th><button type="button" class="app_delete_btn"   data-url="{% url 'parts:app_delete_view' app.id %}">Delete</button></th>
+            <th><button type="button" class="app_edit_btn"   data-url="{% url 'parts:app_update_view' app.id %}" data-toggle="modal" data-target="#updateAppModal">Edit</button></th>
+            <th><button type="button" class="app_delete_btn"   data-url="{% url 'parts:app_delete_view' app.id %}" data-toggle="modal" data-target="#deleteAppModal">Delete</button></th>
             </tr>
         {% endfor %}
     </tbody>
@@ -244,19 +248,40 @@
 </div>
 
 {#delete conformation of applicable model#}
-<form id="delete_form_app" action="" method="post" style="display: none;">
+   <div class="modal fade" id="deleteAppModal" role="dialog">
+   <div class="modal-dialog">
+       <div class="modal-content">
+            <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Deletion</h4>
+      </div>
+           <div class="modal-body">
+    <p>Are you sure you want to delete ?</p>
+      </div>
+           <div class="modal-footer">
+        <form id="delete_form_app" action="" method="post" style="display: none;">
     {% csrf_token %}
     <div id="delete_conformation_app">
     {% include 'app_confirm_delete.html' %}
     </div>
-    <p>Are you sure you want to delete ?</p>
-    <input type="submit" value="Confirm" />
-</form>
+    <input type="submit" value="Confirm" class="btn btn-danger" />
+    </form>
+      </div>
 
+       </div>
+</div>
+    </div>
 {# update modal of applicable model #}
-<div>
-    <form id="update_form_app" action="" method="post">
-        {% csrf_token %}
+       <div class="modal fade" id="updateAppModal" role="dialog">
+   <div class="modal-dialog">
+       <div class="modal-content">
+            <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update</h4>
+      </div>
+           <form id="update_form_app" action="" method="post">
+           <div class="modal-body">
+               {% csrf_token %}
         <div id="my_form_app">
             {% if app_update_form %}
                 {{ app_update_form.as_table }}
@@ -265,9 +290,31 @@
                 {% include 'app_update_form.html' %}
             {% endif %}
         </div>
-        <input type="submit" id="btn_app_update2" style="display: none;" >
+
+      </div>
+           <div class="modal-footer">
+               <input type="submit" id="btn_app_update2" style="display: none;" class="btn btn-success">
+        </div>
     </form>
+
+       </div>
 </div>
-<br>
+    </div>
+
+{#<div>#}
+{#    <form id="update_form_app" action="" method="post">#}
+{#        {% csrf_token %}#}
+{#        <div id="my_form_app">#}
+{#            {% if app_update_form %}#}
+{#                {{ app_update_form.as_table }}#}
+{#                <input type="submit" id="btn_app_update1" >#}
+{#            {% else %}#}
+{#                {% include 'app_update_form.html' %}#}
+{#            {% endif %}#}
+{#        </div>#}
+{#        <input type="submit" id="btn_app_update2" style="display: none;" >#}
+{#    </form>#}
+{#</div>#}
+{#<br>#}
 
 {% endblock %}

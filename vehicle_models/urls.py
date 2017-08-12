@@ -6,7 +6,6 @@ app_name ='vehicle_models'
 urlpatterns = [
     url(r'^addImport/',AddModelImport.as_view(),name='addImport'),
     url(r'^processImport/',processImport,name='processImport'),
-
     url(r'^add_model/',AddManufacturer.as_view(),name='add_model'),
     url(r'^add_category/',AddVehicleCategories.as_view(),name='add_category'),
     url(r'^add_name/',AddVehicleName.as_view(),name='add_name'),

@@ -64,7 +64,6 @@ def check_session(request):
         return reverse('workshop:Workshop')
     elif request.session['department'] == "showrooms":
         return reverse('showrooms:manufacturerLists')
-
     else:
         return reverse('main:login_page')
 
