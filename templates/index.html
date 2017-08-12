@@ -31,11 +31,13 @@ $( "#spinner" ).hide();
 {% block main %}
 
 <div>
-<input id="q" type="text"/>
-<input id="searchSubmit" type="submit" value="Search"/>
+<h3>Search For Customer</h3>
+<input id="q" type="text" style="height:30px;border-radius: 4px;border: solid ;border-width: 0.1px;border-color: darkgrey"/>
+<input id="searchSubmit" type="submit" value="Search" class="btn btn-primary"/>
 <br/>
 <div class="margin">
 <span id="spinner"><img src="http://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif"/></span>
+    <br>
 <div id="results">
 
 </div>
