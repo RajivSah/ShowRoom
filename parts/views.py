@@ -168,8 +168,10 @@ class stock_update_view(UpdateView):
 
 class stock_delete_view(DeleteView):
     model = part_stock
-    success_url = reverse_lazy('parts:part_list')
     template_name = 'part_stock_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('parts:part_detail',args=[self.request.session['part_id']])
 
     def get_context_data(self, **kwargs):
         context = super(stock_delete_view, self).get_context_data(**kwargs)
@@ -217,8 +219,10 @@ class part_search_view(ListView):
 class app_add_view(CreateView):
     model = applicable_model
     fields = ['partId', 'applicable']
-    success_url = reverse_lazy('parts:part_list')
     template_name = 'part_detail.html'
+
+    def get_success_url(self):
+        return reverse('parts:part_detail',args=[self.request.session['part_id']])
 
     def get_context_data(self, **kwargs):
         context = super(app_add_view, self).get_context_data(**kwargs)
@@ -236,8 +240,10 @@ class app_add_view(CreateView):
 class app_update_view(UpdateView):
     model = applicable_model
     fields = ['partId', 'applicable']
-    success_url = reverse_lazy('parts:part_list')
     template_name = 'app_update_form.html'
+
+    def get_success_url(self):
+        return reverse('parts:part_detail',args=[self.request.session['part_id']])
 
     def get_context_data(self, **kwargs):
         context = super(app_update_view, self).get_context_data(**kwargs)
@@ -256,8 +262,10 @@ class app_update_view(UpdateView):
 
 class app_delete_view(DeleteView):
     model = applicable_model
-    success_url = reverse_lazy('parts:part_list')
     template_name = 'app_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('parts:part_detail',args=[self.request.session['part_id']])
 
     def get_context_data(self, **kwargs):
         context = super(app_delete_view, self).get_context_data(**kwargs)

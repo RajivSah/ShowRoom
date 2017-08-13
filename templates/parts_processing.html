@@ -10,17 +10,41 @@
 {% endblock %}
 
 {% block body %}
-    <h3>{{ part_detail.part_id }}<br>
-    {{ part_detail.part_name }}<br>
-    {{ part_detail.cost }}<br>
-    {{ part_detail.available_quantity }}</h3>
+    <div class="container">
+    <a href="{% url 'customer:customer_add' %}">Add New customer</a>
+    <h3>
+    Part ID:{{ part_detail.part_id }}<br>
+    Name:{{ part_detail.part_name }}<br>
+    Cost:{{ part_detail.cost }}<br>
+    Remaining Quantity:{{ part_detail.available_quantity }}</h3>
+    <hr>
     {% include 'index.html' %}
 
-    <a href="{% url 'customer:customer_add' %}">Add New customer</a>
+
 
     <div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Out Date</th>
+            <th>Form No</th>
+            <th>Customer</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for result in part_detail.part_processing_set.all %}
-            {{ result }}<br>
+            <tr>
+            <td>{{ result.pID }}</td>
+            <td>{{ result.out_date }}</td>
+            <td>{{ result.req_form_no }}</td>
+            <td>{{ result.vehicle_id.customerId }}</td>
+            </tr>
         {% endfor %}
+        </tbody>
+
+    </table>
+
+    </div>
     </div>
 {% endblock %}
