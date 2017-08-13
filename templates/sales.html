@@ -20,7 +20,7 @@
 
               <div class="panel-body">
                 <div class="form-group">
-                    <form action="{% url 'showrooms:newSale' %}" method="post">
+                    <form action="{% url 'showrooms:processSale' %}" method="post">
                     {% csrf_token %}
                     {{ newSaleForm.as_p }}
                      <button type="submit" class="btn btn-md btn-success">Add Sale</button>

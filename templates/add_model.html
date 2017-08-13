@@ -55,15 +55,16 @@
               </div>
 
               <div class="panel-body">
-                <form action="{% url 'vehicle_models:add_name'%}" method="post">
+                <form action="{% url 'vehicle_models:add_name' %}" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
                     {{ VehicleName.as_p }}
                      <button type="submit" class="btn btn-md btn-success">Add Vehicle</button>
-                    </form>
                 </form>
+
               </div>
           </div>
-        </div>
+    </div>
+
 
 
 
@@ -75,7 +76,7 @@
               </div>
 
               <div class="panel-body">
-                <form action="{% url 'vehicle_models:add_new_models'%}" method="post" class="post-form">
+                <form action="{% url 'vehicle_models:add_new_models'%}" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
                     {{ Model.as_p}}
                      <button type="submit" class="btn btn-md btn-success">Add Model</button>
@@ -114,7 +115,7 @@
               </div>
 
               <div class="panel-body">
-                <form action="{% url 'vehicle_models:addImport'%}" method="post">
+                <form action="{% url 'vehicle_models:processImport'%}" method="post">
                     {% csrf_token %}
                     {{ ImportDetails.as_p }}
                     <button type="submit" class="btn btn-md btn-success">Add Imports</button>
@@ -132,6 +133,23 @@
 
 
 
+<div class="col-sm-4">
+          <div class="panel panel-primary">
+
+              <div class="panel-heading">
+                    <h3 class="panel-title">Vehicle Name beta</h3>
+              </div>
+
+              <div class="panel-body">
+                <form action="{% url 'vehicle_models:add_' %}" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {{ VehicleNameForm.as_p }}
+                     <button type="submit" class="btn btn-md btn-success">Add Vehicle</button>
+                </form>
+
+              </div>
+          </div>
+    </div>
 
 
 

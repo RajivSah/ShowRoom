@@ -21,7 +21,7 @@ class VehicleCategory(models.Model):
 class VehicleName(models.Model):
     category = models.ForeignKey(VehicleCategory, on_delete=models.CASCADE)
     vehicleName = models.CharField(max_length=30)
-    image=models.ImageField(upload_to='media',blank=True,null=True,)
+    image=models.ImageField(blank=True,null=True,)
     def __str__(self):
         return self.vehicleName
 
@@ -29,8 +29,9 @@ class VehicleName(models.Model):
 class VehicleModels(models.Model):
     vehicleName=models.ForeignKey(VehicleName,on_delete=models.CASCADE)
     model=models.CharField(max_length=30)
+    image = models.ImageField(blank=True, null=True, )
     def __str__(self):
-        return self.model
+        return (str(self.vehicleName)+'-'+str(self.model))
 
 
 class ModelDetails(models.Model):
@@ -47,9 +48,15 @@ class ImportDetails(models.Model):
     importDate=models.DateField(default=datetime.datetime.today().strftime('%Y-%m-%d'))
 
 class ModelStock(models.Model):
+    id = models.AutoField(primary_key=True)
     model=models.ForeignKey(VehicleModels,on_delete=models.CASCADE)
     color=models.CharField(max_length=20)
     quantity=models.IntegerField(default=0)
+    def __str__(self):
+        return (str(self.model)+'-'+str(self.color))
+
+
+
 
 
 class model_first(models.Model):

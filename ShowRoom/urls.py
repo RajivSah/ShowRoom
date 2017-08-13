@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^workshop/',include('workshop.urls')),
     url(r'^showrooms/',include('showrooms.urls')),
 
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

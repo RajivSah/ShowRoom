@@ -5,11 +5,14 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from vehicle_models.models import Manufacturer,VehicleCategory,VehicleName,VehicleModels,ModelDetails
 from .models import Sales
 from .forms import *
+from django.db.models import F
+
+
 
 
 def populate_nav_bar():
     gly_name = ['glyphicon glyphicon-plus','glyphicon glyphicon-plus', 'glyphicon glyphicon-log-out']
-    link_list = [reverse('showrooms:newSale'),reverse('vehicle_models:add_model'), reverse('main:logout')]
+    link_list = [reverse('showrooms:processSale'),reverse('vehicle_models:add_model'), reverse('main:logout')]
     link_name = ['New Sale','Add Model', 'Log Out']
     my_list = zip(gly_name, link_list, link_name)
     return my_list
@@ -17,10 +20,30 @@ def populate_nav_bar():
 
 def populate_nav_bar_sales():
     gly_name = ['glyphicon glyphicon-plus','glyphicon glyphicon-plus', 'glyphicon glyphicon-log-out']
-    link_list = [reverse('showrooms:newSale'),reverse('customer:customer_add'), reverse('main:logout')]
+    link_list = [reverse('showrooms:processSale'),reverse('customer:customer_add'), reverse('main:logout')]
     link_name = ['New Sale','New Customer', 'Log Out']
     my_list = zip(gly_name, link_list, link_name)
     return my_list
+
+
+def salesNumber(request):
+    sales=Sales.objects.filter(dateOfSale__gte='2017-08-01',dateOfSale__lte='2017-08-13')
+    return HttpResponse(len(sales))
+
+
+
+def processSale(request):
+
+        if request.method == 'POST':
+            form = SalesForm(request.POST)
+            if form.is_valid():
+                modelSold = form.cleaned_data['model']
+                form.save()
+                stock = ModelStock.objects.filter(id=modelSold.id).update(quantity=F('quantity') - 1)
+                return HttpResponseRedirect(reverse('showrooms:salesList'))
+        else:
+            return HttpResponseRedirect(reverse('showrooms:newSale'))
+
 
 
 class ListSalesView(ListView):

@@ -3,27 +3,26 @@ from django.views.generic import CreateView,ListView,UpdateView
 from django.urls import reverse,reverse_lazy
 from .models import *
 from .forms import *
-from django.http import HttpResponse
+from django.http import HttpResponse,request
+from django.db.models import F
 
 
 def processImport(request):
-    modelIn=request.POST['model']
-    colorIn=request.POST['color']
-    quantityIn=request.POST['quantity']
-    importDatein=request.POST['importDate']
-    ImportDetails.objects.create(model=modelIn,color=colorIn,quantity=quantityIn,importDate=importDatein)
 
-    stock=ModelStock.objects.filter(model=modelIn)
-    if not stock:
-        exists='empty'
-        ModelStock.objects.create(model=modelIn, color=colorIn, quantity=quantityIn)
-
-    else:
-        exists='found'
-        rightModel=ModelStock.objects.get(model=modelIn,color=colorIn)
-        qty=rightModel.quantity
-        ModelStock.objects.create(model=modelIn, color=colorIn, quantity=qty+quantityIn)
-    return  HttpResponse(str(exists))
+        if request.method == 'POST':
+            form = ImportDetailsForm(request.POST)
+            if form.is_valid():
+                quantityRev = form.cleaned_data['quantity']
+                colorRev = form.cleaned_data['color']
+                modelRev = form.cleaned_data['model']
+                form.save()
+                stock=ModelStock.objects.filter(model=modelRev,color=colorRev)
+                if not stock:
+                    modelStock=ModelStock.objects.create(model=modelRev,color=colorRev,quantity=quantityRev)
+                    return HttpResponse("new stock created")
+                else:
+                    stock = ModelStock.objects.filter(model=modelRev, color=colorRev).update(quantity=F('quantity')+quantityRev)
+                    return  HttpResponse("Stock Updated")
 
 
 
@@ -74,7 +73,7 @@ class AddManufacturer(CreateView):
         context = super(AddManufacturer,self).get_context_data(**kwargs)
         context['Manufacturer']=ManufacturerForm
         context['Category']=CategoryForm
-        context['VehicleName'] = VehicleNameForm
+        context['VehicleName'] = VehicleNameForm(self.request.POST, self.request.FILES)
         context['Model']=ModelForm
         context['ModelDetails']=ModelDetailsForm
         context['ImportDetails']=ImportDetailsForm
@@ -102,12 +101,35 @@ class AddVehicleName(CreateView):
         context = super(AddVehicleName, self).get_context_data(**kwargs)
         return context
 
+    '''
+    def addVehicle(request):
+
+    if request.method == 'POST':
+
+        form = VehicleNameForm(request.POST,request.FILES)
+        form1= VehicleNameForm(request.POST)
+        if form.is_valid():
+            category=form.cleaned_data['category']
+            name=form.cleaned_data['vehicleName']
+            image=form.cleaned_data['image']
+            form.save()
+            return HttpResponse(image)
+
+    else:
+        form = VehicleNameForm()
+        form1 = VehicleNameForm()
+
+    return render(request, 'add_model.html', {'VehicleNameForm': form,'VehicleName':form1})
+
+    
+    '''
+
 
 class AddModels(CreateView):
     model = VehicleModels
     template_name = 'add_model.html'
     success_url = reverse_lazy('vehicle_models:add_model')
-    fields = ['vehicleName','model']
+    fields = ['vehicleName','model','image']
 
     def get_context_data(self, **kwargs):
         context = super(AddModels, self).get_context_data(**kwargs)
