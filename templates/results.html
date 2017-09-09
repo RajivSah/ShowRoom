@@ -1,0 +1,45 @@
+<html>
+
+<head>
+<title>Django/jQuery AJAX Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+        $(function () {
+            $("#id_pID").val({{ part_id }}).change();
+
+             $('input[name="customer"]').click(function(){
+             if ($(this).is(':checked'))
+             {
+                  $("#id_vehicle_id").val($(this).data('id')).change();
+                   $("#id_pID").val({{ part_id }}).change();
+
+             }
+  });
+
+        })
+
+    </script>
+    </head>
+{% load widget_tweaks %}
+<form>
+        <ul class="list-group">
+    {% for rel in results %}
+        <li class="list-group-item"><input type="radio" name="customer" class="vehicle_select" data-id="{{ rel.id }}" >{{ rel.id }}-{{ rel.customerId.fName}}-{{ rel.customerId.lName }}-{{ rel.VRN }}<br>
+    {% endfor %}
+        </ul>
+</form>
+
+    <form action="{% url 'parts:part_pro_add' %}" method="post" class="form-horizontal">
+        {%  csrf_token %}
+        <div class="form-group col-sm-3"><label for="id_pID" class="control-label">PID:</label>{{ part_pro_form.pID|add_class:"form-control" }}</div>
+        <div class="form-group col-sm-3"><label for="id_out_date" class="control-label">Out date:</label>{{ part_pro_form.out_date|add_class:"form-control" }}</div>
+        <div class="form-group col-sm-3"><label for="id_req_form_no" class="control-label">Req form no:</label>{{ part_pro_form.req_form_no|add_class:"form-control" }}</div>
+        <div class="form-group col-sm-3"><label for="id_quantity" class="control-label">Quantity:</label>{{ part_pro_form.quantity|add_class:"form-control" }}</div>
+        <div class="form-group col-sm-3"><label for="id_vehicle_id" class="control-label">Vehicle id:</label>{{ part_pro_form.vehicle_id|add_class:"form-control" }}</div>
+        <div class="form-group col-sm-3" style="padding: 2.5%"><input type="submit" class="btn btn-primary"></div>
+    </form>
+
+
+

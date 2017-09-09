@@ -1,0 +1,13 @@
+{% extends 'model_base.html' %}
+
+{% block body %}
+
+{% for vehicle in vehicle_name_list %}
+<a href="{% url 'showrooms:modelList' vehicle.id %}" class="list-group-item">{{ vehicle.vehicleName }}<br>
+
+
+
+
+{% endfor %}
+
+{% endblock %}

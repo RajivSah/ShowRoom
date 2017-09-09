@@ -1,0 +1,13 @@
+ {% extends 'employee_base.html' %}
+
+
+{% block body %}
+
+{% for employee in employee_list %}
+        <div >
+           <a href="{% url 'main:employee_detail' employee.id %}" class="list-group-item" >{{ employee }},&nbsp;{{ employee.add_dist }}</a>
+            <a href="{% url 'main:employee_update' employee.id %}" > Edit </a>
+        </div>
+{% endfor %}
+
+{% endblock %}

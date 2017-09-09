@@ -1,0 +1,13 @@
+ {% extends 'customer_base.html' %}
+
+
+{% block body %}
+
+{% for customer in customer_list %}
+        <div >
+           <a href="{% url 'customer:customer_detail' customer.id %}" class="list-group-item" >{{ customer }},&nbsp;{{ customer.add_dist }}</a>
+            <a href="{% url 'customer:customer_update' customer.id %}" > Edit </a>
+        </div>
+{% endfor %}
+
+{% endblock %}

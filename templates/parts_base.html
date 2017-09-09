@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pasts</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% block javascript %}
+    {% endblock %}
+</head>
+<body>
+{% load widget_tweaks %}
+{% block nav-bar %}
+    <div>
+        {% include 'nav_bar_base.html' with my_list=my_list search_link='parts:part_search_view' home_link='parts:part_list' name='Parts'%}
+    </div>
+    <br><br><br><br>
+{% endblock %}
+
+{% block body %}
+
+{% endblock %}
+</body>
+</html>

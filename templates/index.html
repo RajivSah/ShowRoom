@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {%extends "base.html" %}
 {%block content%}
 {%if error%}
@@ -29,3 +30,51 @@
 {%endif%}
 </table>
 {%endblock%}
+=======
+{% extends "base.html" %}
+
+{% block extra_js %}
+
+<script type="text/javascript">
+$( document ).ready( function() {
+    var url = "{% url 'parts:search_customer' %}?q=" + '';
+    $( "#results" ).html( "&nbsp;" ).load( url );
+    $("#searchSubmit").on('click',function () {
+        var q = $( "#q" ).val();
+        var url = "{% url 'parts:search_customer' %}?q=" + q;
+        $( "#results" ).html( "&nbsp;" ).load( url );
+
+
+    });
+
+
+
+
+});
+
+$( document ).ajaxStart( function() {
+$( "#spinner" ).show();
+}).ajaxStop( function() {
+$( "#spinner" ).hide();
+});
+</script>
+
+{% endblock %}
+
+{% block main %}
+
+<div>
+<h3>Search For Customer</h3>
+<input id="q" type="text" style="height:30px;border-radius: 4px;border: solid ;border-width: 0.1px;border-color: darkgrey"/>
+<input id="searchSubmit" type="submit" value="Search" class="btn btn-primary"/>
+<br/>
+<div class="margin">
+<span id="spinner"><img src="http://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif"/></span>
+    <br>
+<div id="results">
+
+</div>
+</div>
+</div>
+{% endblock %}
+>>>>>>> 766895a8922baad7c3e4d0a46ba756314655ac2f
