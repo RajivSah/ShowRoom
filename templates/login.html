@@ -5,7 +5,6 @@
     <title>Login</title>
     {% load widget_tweaks %}
     {% load static %}
-    {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'login_page.css' %}">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -26,8 +25,8 @@
                         <div class="input-group input-group-lg">
                              <span class="input-group-addon">
                              <span class="glyphicon glyphicon glyphicon-user"></span>
-                            </span> 
-                            {{ login_form.username|add_class:"form-control input_field"|attr:"placeholder:Username"}}  
+                            </span>
+                            {{ login_form.username|add_class:"form-control input_field"|attr:"placeholder:Username"}}
 
                         </div>
                 <br><br>

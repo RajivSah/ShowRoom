@@ -9,7 +9,7 @@ class job_records( models.Model ):
     job_done = models.CharField(max_length=500)
     vid = models.ForeignKey(customer_vehicle_info ,on_delete=models.CASCADE)
     date =models.DateField(default=datetime.datetime.today().strftime('%Y-%m-%d'))
-    e_id = models.ForeignKey(employee)
+    e_id = models.ForeignKey(employee,on_delete=models.CASCADE)
 
 
     def __str__( self ):

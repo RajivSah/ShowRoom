@@ -25,6 +25,11 @@ SECRET_KEY = 'ji(idx%do-otb@)lh7j#v!dn=+wm)i=elti9**7unve(&6gp-&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+VENV_PATH = os.path.dirname(BASE_DIR)
+STATIC_ROOT = os.path.join(VENV_PATH, 'static_root')
+
 ALLOWED_HOSTS = []
 
 
